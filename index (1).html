@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr. Jesús Rodríguez González — Ortodoncista Madrid</title>
+<meta name="keywords" content="Dr. Jesús Rodríguez González, ortodoncista Madrid, ortodoncia personalizada, tecnología avanzada, sonrisa perfecta, tratamientos de ortodoncia, clínica dental Madrid">
+<meta name="description" content="Descubre la excelencia en ortodoncia con el Dr. Jesús Rodríguez González en Madrid. Tratamientos personalizados, tecnología avanzada y resultados excepcionales para tu sonrisa perfecta.">
+<link rel="shortcut icon" href="icono.png" type="image/x-icon">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --blue: #1a56db;
+    --blue-light: #3b82f6;
+    --blue-soft: rgba(26,86,219,0.1);
+    --bg: #f0f4ff;
+    --bg2: #e8eeff;
+    --dark: #0d1b3e;
+    --text: #0d1b3e;
+    --text-muted: rgba(13,27,62,0.45);
+    --text-light: rgba(13,27,62,0.6);
+    --white: #ffffff;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 20px 60px;
+    display: flex; justify-content: space-between; align-items: center;
+    background: rgba(240,244,255,0.94);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(26,86,219,0.08);
+  }
+  .nav-logo { display: flex; align-items: center; gap: 10px; }
+  .nav-logo-icon {
+    width: 34px; height: 34px; background: var(--blue);
+    border-radius: 8px; display: flex; align-items: center;
+    justify-content: center; color: white; font-size: 1rem;
+  }
+  .nav-logo-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-weight: 600; color: var(--dark); letter-spacing: 0.04em;
+  }
+  .nav-promo {
+    display: flex; align-items: center; gap: 8px;
+    background: linear-gradient(90deg, var(--blue), var(--blue-light));
+    border: 1px solid rgba(255,255,255,0.2);
+    box-shadow: 0 4px 15px rgba(26,86,219,0.3);
+    padding: 8px 18px; border-radius: 50px;
+    font-size: 0.78rem; font-weight: 500; color: white;
+  }
+  .nav-promo strong { color: #fde047; font-weight: 800; }
+  .nav-promo-dot { width: 8px; height: 8px; background: #fde047; border-radius: 50%; display: inline-block; animation: bpulse 1.5s infinite; }
+  .nav-right { display: flex; align-items: center; gap: 18px; }
+  .nav-link { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
+  .nav-link:hover { color: var(--blue); }
+  .nav-cta, .theme-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: var(--blue); color: white;
+    padding: 10px 18px; font-size: 0.72rem; font-weight: 500;
+    text-decoration: none; border: none; border-radius: 6px;
+    transition: background 0.3s, transform 0.15s;
+    cursor: pointer;
+  }
+  .nav-cta:hover, .theme-toggle:hover { background: var(--blue-light); }
+  .theme-toggle { min-width: 42px; }
+
+  /* HERO */
+  .hero {
+    position: relative; width: 100%; height: 100vh; min-height: 580px;
+    overflow: hidden; display: flex; align-items: center;
+    background: linear-gradient(180deg, rgba(59,130,246,0.08) 0%, rgba(255,255,255,0.96) 100%);
+  }
+  .hero-photo {
+    position: absolute; inset: 0;
+    background: url('Jesus2.png') center 25%/cover no-repeat;
+    filter: brightness(1) saturate(1.5);
+    pointer-events: none; z-index: 0;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0;
+    background: radial-gradient(circle at top right, rgba(59,130,246,0.25), transparent 100%),
+                linear-gradient(90deg, rgba(255,255,255,0.95) 30%, rgba(255,255,255,0.9) 0%, transparent 100%);
+    z-index: 1;
+  }
+  .hero-inner {
+    position: relative; z-index: 2; width: 100%;
+    display: flex; justify-content: flex-start; padding: 0 40px;
+  }
+  .hero-text-panel { width: 48%; display: flex; flex-direction: column; justify-content: center; }
+  .hero-tagline { font-size: 0.65rem; font-weight: 600; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 18px; }
+  .hero-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 4vw, 4.2rem); font-weight: 400; line-height: 1.05; color: var(--dark); text-transform: uppercase; margin-bottom: 4px; }
+  .hero-title-sub { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.6rem, 4vw, 4.2rem); font-weight: 400; line-height: 1.05; color: var(--dark); text-transform: uppercase; margin-bottom: 22px; }
+  .hero-price-row { display: flex; align-items: baseline; gap: 10px; margin-bottom: 24px; }
+  .hero-price-only { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; align-self: center; }
+  .hero-price { font-family: 'Cormorant Garamond', serif; font-size: clamp(3.5rem, 5.5vw, 5.5rem); font-weight: 600; color: var(--dark); line-height: 1; }
+  .hero-pill {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(255,255,255,0.95); border: 1px solid rgba(13,27,62,0.08);
+    color: #000000; font-size: 0.68rem; font-weight: 600; letter-spacing: 1px;
+    text-transform: uppercase; padding: 11px 20px; border-radius: 50px;
+    margin-bottom: 32px; width: fit-content;
+  }
+  .hero-pill-dot { width: 7px; height: 7px; background: #4ade80; border-radius: 50%; flex-shrink: 0; animation: heroPulse 1.8s infinite; }
+  @keyframes heroPulse { 0%,100%{opacity:1} 50%{opacity:.2} }
+  .hero-cta {
+    display: inline-block; background: var(--blue); color: white;
+    font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 700;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+    padding: 18px 42px; border-radius: 60px; width: fit-content; border: none; cursor: pointer;
+    transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(26,86,219,0.4);
+    animation: ctaPulse 2s infinite;
+  }
+  .hero-cta:hover { background: var(--blue-light); transform: translateY(-3px); box-shadow: 0 15px 35px rgba(26,86,219,0.6); }
+  @keyframes ctaPulse { 0%{box-shadow:0 0 0 0 rgba(26,86,219,0.4);} 70%{box-shadow:0 0 0 15px rgba(26,86,219,0);} 100%{box-shadow:0 0 0 0 rgba(26,86,219,0);} }
+  .hero-cta-note { margin-top: 12px; font-size: 0.65rem; color: var(--text-muted); letter-spacing: 0.3px; }
+  .hero-location {
+    position: absolute; top: 28px; right: 40px; z-index: 10;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.9); border: 1px solid rgba(13,27,62,0.1);
+    border-radius: 50px; padding: 6px 14px 6px 8px; backdrop-filter: blur(6px);
+    font-size: 0.68rem; font-weight: 700; color: var(--dark); letter-spacing: 1px; text-transform: uppercase;
+  }
+  @keyframes bpulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.4;transform:scale(0.7);} }
+
+  /* ABOUT */
+  .about-doctor { padding: 80px 60px; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
+  .about-doctor-card { background: white; border-radius: 28px; border: 1px solid rgba(26,86,219,0.08); padding: 32px; box-shadow: 0 24px 48px rgba(26,86,219,0.08); display: grid; gap: 24px; }
+  .about-doctor-card img { width: 100%; border-radius: 24px; object-fit: cover; min-height: 420px; }
+  .about-doctor-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem, 3vw, 2.8rem); color: var(--dark); margin-bottom: 10px; }
+  .about-doctor-subtitle { color: var(--blue); font-size: 0.95rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 16px; }
+  .about-doctor-text { font-size: 0.92rem; line-height: 1.8; color: var(--text-muted); }
+  .about-doctor-list { display: grid; gap: 12px; font-size: 0.88rem; color: var(--text-muted); }
+  .about-doctor-list span { display: inline-flex; align-items: center; gap: 10px; }
+  .about-doctor-list span::before { content: '•'; color: var(--blue); }
+
+  /* FEATURES */
+  .features { padding: 120px 60px; max-width: 1200px; margin: 0 auto; }
+  .section-eyebrow { display: inline-flex; align-items: center; gap: 8px; background: rgba(26,86,219,0.08); border: 1px solid rgba(26,86,219,0.15); color: var(--blue); padding: 5px 14px; border-radius: 100px; font-size: 0.67rem; font-weight: 500; margin-bottom: 20px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(2rem, 3.5vw, 3.2rem); font-weight: 400; line-height: 1.1; color: var(--dark); margin-bottom: 14px; }
+  .section-title em { font-style: italic; color: var(--blue); }
+  .section-desc { font-size: 0.82rem; line-height: 1.8; color: var(--text-muted); max-width: 460px; }
+  .features-header { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: end; margin-bottom: 56px; }
+  .features-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
+  .feature-card { background: white; border-radius: 16px; padding: 32px 28px; border: 1px solid rgba(26,86,219,0.07); transition: all 0.3s; }
+  .feature-card:hover { transform: translateY(-4px); box-shadow: 0 20px 48px rgba(26,86,219,0.1); border-color: rgba(26,86,219,0.18); }
+  .feature-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: rgba(26,86,219,0.15); line-height: 1; margin-bottom: 16px; }
+  .feature-icon-wrap { width: 42px; height: 42px; background: rgba(26,86,219,0.08); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; margin-bottom: 14px; }
+  .feature-title { font-size: 0.92rem; font-weight: 600; color: var(--dark); margin-bottom: 10px; }
+  .feature-text { font-size: 0.77rem; line-height: 1.8; color: var(--text-muted); }
+
+  /* TESTIMONIALS */
+  .testimonials { padding: 120px 60px; max-width: 1200px; margin: 0 auto; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 44px; }
+  .testimonial-card { background: white; border-radius: 20px; border: 1px solid rgba(26,86,219,0.08); padding: 28px; display: flex; gap: 18px; box-shadow: 0 18px 40px rgba(26,86,219,0.08); transition: transform 0.3s, box-shadow 0.3s; }
+  .testimonial-card:hover { transform: translateY(-3px); box-shadow: 0 24px 54px rgba(26,86,219,0.12); }
+  .testimonial-body { display: flex; flex-direction: column; gap: 14px; }
+  .testimonial-text { font-size: 0.88rem; line-height: 1.8; color: var(--text-muted); }
+  .testimonial-meta { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 0.9rem; font-weight: 600; color: var(--dark); }
+  .testimonial-stars { color: #f59e0b; letter-spacing: 0.02em; font-size: 0.95rem; }
+  .testimonial-name { display: block; color: var(--dark); }
+
+  /* CAMPAÑA */
+  .campana-card-light { background: white; border: 1px solid rgba(26,86,219,0.12); border-radius: 16px; padding: 44px 40px; position: relative; overflow: hidden; box-shadow: 0 12px 40px rgba(26,86,219,0.1); }
+  .urgent-bar { background: white; border: 1px solid rgba(26,86,219,0.1); border-radius: 12px; padding: 18px 28px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 48px; box-shadow: 0 4px 16px rgba(26,86,219,0.06); }
+  .step-card { background: white; border: 1px solid rgba(26,86,219,0.07); border-radius: 14px; padding: 32px 28px; text-align: center; transition: all 0.3s; }
+
+  /* FORM */
+  .form-section { padding: 120px 60px; max-width: 620px; margin: 0 auto; text-align: center; }
+  .form-wrap { background: white; border-radius: 20px; padding: 44px; margin-top: 44px; box-shadow: 0 20px 60px rgba(26,86,219,0.1); border: 1px solid rgba(26,86,219,0.07); text-align: left; }
+  .form-group { margin-bottom: 14px; }
+  .form-label { display: block; font-size: 0.72rem; font-weight: 500; color: var(--dark); margin-bottom: 7px; }
+  .form-input { width: 100%; background: var(--bg); border: 1.5px solid rgba(26,86,219,0.1); color: var(--text); padding: 13px 16px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 300; outline: none; transition: border-color 0.3s, box-shadow 0.3s; }
+  .form-input::placeholder { color: rgba(13,27,62,0.22); }
+  .form-input:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.08); }
+  .form-select { width: 100%; background: var(--bg); border: 1.5px solid rgba(26,86,219,0.1); color: var(--text); padding: 13px 16px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 300; outline: none; transition: border-color 0.3s; appearance: none; cursor: pointer; }
+  .form-select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(26,86,219,0.08); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .btn-submit { width: 100%; background: var(--blue); color: white; border: none; padding: 15px; border-radius: 8px; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.3s; margin-top: 6px; box-shadow: 0 8px 24px rgba(26,86,219,0.28); letter-spacing: 0.02em; }
+  .btn-submit:hover { background: var(--blue-light); transform: translateY(-1px); box-shadow: 0 12px 32px rgba(26,86,219,0.38); }
+  .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
+  .form-note { font-size: 0.67rem; color: var(--text-muted); margin-top: 14px; text-align: center; line-height: 1.6; }
+
+  /* FORM STATES */
+  .form-success { display: none; text-align: center; padding: 40px 20px; }
+  .form-success-icon { font-size: 3rem; margin-bottom: 16px; }
+  .form-success-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 10px; }
+  .form-success-text { font-size: 0.85rem; color: var(--text-muted); line-height: 1.7; }
+  .form-error-msg { display: none; background: #fef2f2; border: 1px solid #fecaca; color: #dc2626; padding: 12px 16px; border-radius: 8px; font-size: 0.78rem; margin-bottom: 14px; }
+
+  /* FOOTER */
+  footer { background: var(--dark); padding: 44px 60px; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { display: flex; align-items: center; gap: 10px; color: white; }
+  .footer-logo-icon { width: 30px; height: 30px; background: var(--blue); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; }
+  .footer-logo-text { font-family: 'Cormorant Garamond', serif; font-size: 0.92rem; font-weight: 400; letter-spacing: 0.04em; }
+  .footer-text { font-size: 0.67rem; color: rgba(255,255,255,0.22); }
+
+  /* DARK MODE */
+  body.dark-mode {
+    --bg: #0b1222; --bg2: #111930; --dark: #f7fbff; --text: #eef2ff;
+    --text-muted: rgba(226,232,255,0.72); --text-light: rgba(226,232,255,0.85); --white: #edf2ff;
+    --blue: #60a5fa; --blue-light: #93c5fd; --blue-soft: rgba(96,165,250,0.18);
+  }
+  body.dark-mode nav { background: rgba(10,18,40,0.94); border-bottom-color: rgba(96,165,250,0.08); }
+  body.dark-mode .hero { background: linear-gradient(180deg, rgba(15,23,42,0.92) 0%, rgba(10,18,40,0.98) 100%); }
+  body.dark-mode .hero-overlay { background: radial-gradient(circle at top right, rgba(96,165,250,0.15), transparent 40%), linear-gradient(90deg, rgba(11,18,34,1) 0%, rgba(11,18,34,0.85) 55%, transparent 100%); }
+  body.dark-mode .hero-location { background: rgba(15,23,42,0.88); border-color: rgba(96,165,250,0.16); color: #edf2ff; }
+  body.dark-mode .about-doctor-card, body.dark-mode .feature-card, body.dark-mode .testimonial-card, body.dark-mode .form-wrap, body.dark-mode .campana-card-light, body.dark-mode .urgent-bar, body.dark-mode .step-card { background: #112240; border-color: rgba(96,165,250,0.12); box-shadow: 0 24px 48px rgba(0,0,0,0.18); color: #edf2ff;}
+  body.dark-mode .urgent-bar span { color: #edf2ff; }
+  body.dark-mode .about-doctor-text, body.dark-mode .feature-text { color: #edf2ff; }
+  body.dark-mode .about-doctor-list span { color: rgba(226,232,255,0.85); }
+  body.dark-mode .form-input, body.dark-mode .form-select { background: #111f3f; border-color: rgba(96,165,250,0.16); color: #edf2ff; }
+  body.dark-mode footer { background: #071127; }
+
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  @keyframes fadeUp { from{opacity:0;transform:translateY(22px);} to{opacity:1;transform:translateY(0);} }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    nav { padding: 12px 20px; flex-wrap: wrap; gap: 12px; }
+    .nav-promo { order: 3; width: 100%; justify-content: center; font-size: 0.72rem; padding: 6px 12px; }
+    .nav-link { display: none; }
+    .hero-overlay { background: linear-gradient(180deg, rgba(240,244,255,0.95) 0%, rgba(240,244,255,0.85) 100%); }
+    .hero-inner { padding: 130px 20px 40px; }
+    .hero-text-panel { width: 100%; }
+    .about-doctor { grid-template-columns: 1fr; padding: 60px 20px; }
+    .features { padding: 80px 20px; }
+    .features-header { grid-template-columns: 1fr; gap: 20px; }
+    .features-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 80px 20px; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .form-section { padding: 80px 20px; }
+    .form-wrap { padding: 28px 20px; }
+    .form-row { grid-template-columns: 1fr; }
+    footer { padding: 32px 20px; flex-direction: column; gap: 14px; text-align: center; }
+    .urgent-bar { flex-direction: column; gap: 16px; text-align: center; }
+  }
+
+  /* SCROLL PROGRESS BAR */
+  #scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--blue), #7c3aed); z-index: 9999; width: 0%; transition: width 0.08s linear; pointer-events: none; border-radius: 0 3px 3px 0; }
+
+  /* NAV SCROLL EFFECT */
+  nav { transition: padding 0.35s ease, box-shadow 0.35s ease; }
+  nav.scrolled { padding: 10px 60px; box-shadow: 0 6px 28px rgba(26,86,219,0.13); }
+  @media (max-width: 768px) { nav.scrolled { padding: 8px 16px; } }
+
+  /* STATS BANNER */
+  .stats-banner { background: var(--blue); padding: 30px 60px; display: flex; justify-content: center; gap: 0; overflow: hidden; position: relative; }
+  .stats-banner::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(124,58,237,0.2) 0%, transparent 60%); pointer-events: none; }
+  .stat-item { display: flex; flex-direction: column; align-items: center; padding: 0 52px; position: relative; }
+  .stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 50%; transform: translateY(-50%); width: 1px; height: 44px; background: rgba(255,255,255,0.18); }
+  .stat-num { font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 600; color: white; line-height: 1; }
+  .stat-label { font-size: 0.63rem; font-weight: 500; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1.5px; margin-top: 5px; text-align: center; }
+  @media (max-width: 768px) { .stats-banner { padding: 18px 12px; flex-wrap: wrap; } .stat-item { padding: 14px 18px; width: 50%; } .stat-item::after { display: none; } }
+
+  /* HERO SPECIALTY CYCLING */
+  .hero-specialty { font-size: 0.82rem; color: var(--text-light); margin-bottom: 18px; font-weight: 300; }
+  .hero-specialty-text { color: var(--blue); font-weight: 600; transition: opacity 0.35s ease, transform 0.35s ease; display: inline-block; }
+
+  /* COUNTDOWN TIMER */
+  .countdown-label { font-size: 0.6rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); margin-bottom: 10px; }
+  .countdown-wrap { display: flex; align-items: flex-start; gap: 6px; margin-bottom: 22px; }
+  .countdown-block { text-align: center; min-width: 50px; }
+  .countdown-num { font-family: 'Cormorant Garamond', serif; font-size: 2.2rem; font-weight: 600; color: var(--blue); line-height: 1; display: block; background: rgba(26,86,219,0.06); border-radius: 8px; padding: 4px 8px; min-width: 50px; }
+  .countdown-unit { font-size: 0.54rem; font-weight: 500; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; display: block; margin-top: 4px; }
+  .countdown-sep { font-family: 'Cormorant Garamond', serif; font-size: 2rem; color: var(--blue); opacity: 0.35; line-height: 1.2; }
+
+
+  /* TOAST */
+  #toast { position: fixed; bottom: 90px; right: 28px; background: #0d1b3e; color: #ffffff; padding: 13px 20px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; z-index: 9997; transform: translateX(calc(100% + 50px)); transition: transform 0.45s cubic-bezier(0.34,1.56,0.64,1); box-shadow: 0 8px 30px rgba(0,0,0,0.35); max-width: 280px; line-height: 1.5; border: 1px solid rgba(255,255,255,0.08); }
+  #toast.show { transform: translateX(0); }
+  body.dark-mode #toast { background: #1e3a6e; border-color: rgba(96,165,250,0.25); }
+  @media (max-width: 768px) { #toast { right: 12px; max-width: calc(100vw - 24px); } }
+
+  /* HERO PARALLAX CONTAINER */
+  .hero-photo { will-change: transform; }
+
+  /* FEATURE CARD ENHANCED HOVER */
+  .feature-card { position: relative; overflow: hidden; }
+  .feature-card::before { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,86,219,0.04) 0%, transparent 60%); opacity: 0; transition: opacity 0.3s; pointer-events: none; border-radius: inherit; }
+  .feature-card:hover::before { opacity: 1; }
+
+  /* SECTION FADE-IN DELAY VARIANTS */
+  .reveal-delay-4 { transition-delay: 0.4s; }
+  .reveal-delay-5 { transition-delay: 0.5s; }
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+<nav>
+  <div class="nav-logo">
+    <div class="nav-logo-icon" style="padding:0;overflow:hidden;">
+      <svg viewBox="22 18 46 55" width="21" height="21" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="20" width="46" height="28" rx="12" fill="white" opacity="0.95"/>
+        <rect x="22" y="44" width="18" height="27" rx="8" fill="white" opacity="0.95"/>
+        <rect x="50" y="44" width="18" height="27" rx="8" fill="white" opacity="0.95"/>
+        <ellipse cx="33" cy="27" rx="5.5" ry="3" fill="white" opacity="0.28" transform="rotate(-18,33,27)"/>
+      </svg>
+    </div>
+    <span class="nav-logo-text">Dr. Jesús Rodríguez González</span>
+  </div>
+  <div class="nav-promo">
+    <span class="nav-promo-dot"></span>
+    <span>1ª Visita <strong>GRATIS</strong> + Ortodoncia <strong>1.000€</strong></span>
+  </div>
+  <div class="nav-right">
+    <a href="#testimonios" class="nav-link">Testimonios</a>
+    <button id="theme-toggle" class="theme-toggle" type="button">Modo oscuro</button>
+    <a href="#reserva" class="nav-cta">Reservar cita</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-location">
+    <span style="font-size:18px;line-height:1;">🇪🇸</span>
+    <span>Madrid</span>
+  </div>
+  <div class="hero-inner">
+    <div class="hero-text-panel">
+      <div class="hero-tagline">Policlínica Viriato · Calle Viriato 27 · Madrid</div>
+      <div class="hero-title">Dr. Jesús</div>
+      <div class="hero-title-sub">Rodríguez González</div>
+      <div class="hero-specialty">Especialista en <span id="specialty-text" class="hero-specialty-text">Ortodoncia Invisible</span></div>
+      <div class="hero-price-row">
+        <span class="hero-price-only">Primera cita</span>
+        <span class="hero-price">gratuita</span>
+      </div>
+      <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
+        Ortodoncista · 10 años de experiencia · 30 reseñas ★★★★★
+      </div>
+      <a href="#reserva" class="hero-cta">Pide tu cita ahora →</a>
+      <div class="hero-cta-note">Sin compromiso · Te confirmamos en menos de 2 horas</div>
+    </div>
+  </div>
+</section>
+
+<div class="stats-banner">
+  <div class="stat-item">
+    <span class="stat-num" data-target="10" data-suffix="+">10+</span>
+    <span class="stat-label">Años de experiencia</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="30" data-suffix="+">30+</span>
+    <span class="stat-label">Reseñas verificadas</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num" data-target="5" data-suffix="★">5★</span>
+    <span class="stat-label">Estrellas Doctoralia</span>
+  </div>
+  <div class="stat-item">
+    <span class="stat-num">1.000€</span>
+    <span class="stat-label">Ortodoncia completa</span>
+  </div>
+</div>
+
+<section class="about-doctor">
+  <div class="about-doctor-card reveal reveal-delay-1">
+    <img src="Jesus.png" alt="Dr. Jesús Rodríguez González — Ortodoncista Madrid">
+  </div>
+  <div class="about-doctor-card reveal reveal-delay-2">
+    <div class="about-doctor-subtitle">Conoce al doctor</div>
+    <h2 class="about-doctor-title">Dr. Jesús Rodríguez González</h2>
+    <p class="about-doctor-text">Especialista en ortodoncia y odontología restauradora con más de 10 años de experiencia. Atiende en la Policlínica Viriato, Calle Viriato 27, Madrid, con un enfoque cercano y tratamientos personalizados para cada paciente.</p>
+    <div class="about-doctor-list">
+      <span>Máster en Ortodoncia — Universidad UDIMA</span>
+      <span>Licenciado — Universidad Europea de Madrid</span>
+      <span>+30 opiniones verificadas · 5 estrellas en Doctoralia</span>
+      <span>Especialista en ortodoncia invisible y estética dental</span>
+    </div>
+  </div>
+</section>
+
+<section class="features" id="servicios">
+  <div class="features-header reveal">
+    <div>
+      <div class="section-eyebrow">Tratamientos</div>
+      <h2 class="section-title">Todo lo que necesitas<br>para tu sonrisa <em>en Viriato.</em></h2>
+    </div>
+    <p class="section-desc">Atención personalizada en Policlínica Viriato, Calle Viriato 27, Madrid. Tratamientos pensados para resultados duraderos y una experiencia cómoda desde el primer día.</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal reveal-delay-1"><div class="feature-num">01</div><div class="feature-icon-wrap">✨</div><div class="feature-title">Estética Dental</div><p class="feature-text">Carillas, blanqueamiento y diseño de sonrisa personalizado. Resultados naturales que transforman tu confianza desde la primera sesión.</p></div>
+    <div class="feature-card reveal reveal-delay-2"><div class="feature-num">02</div><div class="feature-icon-wrap">🔩</div><div class="feature-title">Implantología</div><p class="feature-text">Implantes de última generación con planificación digital 3D. Recupera tu sonrisa completa con resultados permanentes y naturales.</p></div>
+    <div class="feature-card reveal reveal-delay-3"><div class="feature-num">03</div><div class="feature-icon-wrap">😁</div><div class="feature-title">Ortodoncia Invisible</div><p class="feature-text">Alineadores transparentes desde 1.000€. Corrige tu mordida sin que nadie lo note, con seguimiento personalizado en cada revisión.</p></div>
+    <div class="feature-card reveal reveal-delay-1"><div class="feature-num">04</div><div class="feature-icon-wrap">🧒</div><div class="feature-title">Odontopediatría</div><p class="feature-text">Cuidado dental especializado para niños a partir de 6 años. Creamos experiencias positivas que forman hábitos saludables de por vida.</p></div>
+    <div class="feature-card reveal reveal-delay-2"><div class="feature-num">05</div><div class="feature-icon-wrap">🩺</div><div class="feature-title">Periodoncia</div><p class="feature-text">Prevención y tratamiento de enfermedades de encías. La salud periodontal es la base de una boca sana y duradera.</p></div>
+    <div class="feature-card reveal reveal-delay-3"><div class="feature-num">06</div><div class="feature-icon-wrap">🚨</div><div class="feature-title">Urgencias</div><p class="feature-text">Atención rápida cuando más lo necesitas. Gestionamos cualquier urgencia dental con prioridad y eficacia.</p></div>
+  </div>
+</section>
+
+<section class="testimonials" id="testimonios">
+  <div class="section-eyebrow reveal">Opiniones verificadas</div>
+  <h2 class="section-title reveal">Lo que dicen los pacientes<br><em>del Dr. Jesús.</em></h2>
+  <p class="section-desc reveal" style="margin-top:18px;max-width:640px;">Opiniones reales verificadas en Doctoralia. Más de 30 pacientes con valoración media de 5 estrellas.</p>
+  <div class="testimonials-grid">
+    <article class="testimonial-card reveal reveal-delay-1">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Es muy buena persona, te explica todo y es muy paciente."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Daniel Cojocaru</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-2">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Muy buen dentista, súper atento, te hace sentir como en casa. Profesionalmente muy bueno en su trabajo y personalmente genial."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Eduardo</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-3">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Muy profesionales, saben explicar bien los tratamientos. Los recomiendo al 100% sin dudarlo."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Sandra Cantillo</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-1">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Atienden muy bien, una persona muy majo, súper atento. Lo recomiendo un montón."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Alba</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-2">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Muy amables todos, desde que entras te hacen sentir muy cómodo. El doctor muy atento, te saca de cualquier duda con paciencia."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Jorge</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+    <article class="testimonial-card reveal reveal-delay-3">
+      <div class="testimonial-body">
+        <p class="testimonial-text">"Excelente atención, volveré a realizar todos mis tratamientos con ellos. Precios súper accesibles."</p>
+        <div class="testimonial-meta"><span class="testimonial-name">Jasmin</span><span class="testimonial-stars">★★★★★</span></div>
+      </div>
+    </article>
+  </div>
+  <div style="text-align:center;margin-top:36px;">
+    <a href="https://www.doctoralia.es/jesus-rodriguez-gonzalez-2/dentista/benidorm" target="_blank" rel="noopener" class="nav-cta" style="display:inline-flex;align-items:center;justify-content:center;min-width:220px;">Ver las 30 opiniones en Doctoralia →</a>
+  </div>
+</section>
+
+<!-- OFERTA -->
+<section style="padding:100px 60px;background:var(--bg2);">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:56px;" class="reveal">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(26,86,219,0.09);border:1px solid rgba(26,86,219,0.2);color:var(--blue);padding:6px 18px;border-radius:100px;font-size:0.68rem;font-weight:500;margin-bottom:20px;">
+        <span style="width:6px;height:6px;background:var(--blue);border-radius:50%;display:inline-block;animation:bpulse 2s infinite;"></span>
+        Oferta de apertura · Plazas limitadas
+      </div>
+      <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(2.2rem,4vw,3.8rem);font-weight:400;line-height:1.1;color:var(--dark);margin-bottom:12px;">Tu sonrisa empieza<br><em style="font-style:italic;color:var(--blue);">hoy. Gratis.</em></h2>
+      <p style="font-size:0.82rem;color:var(--text-muted);max-width:460px;margin:0 auto;line-height:1.8;">Con motivo de la apertura en Madrid, una oportunidad única. Solo para los primeros pacientes.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;" class="reveal">
+      <div style="background:var(--blue);border-radius:16px;padding:44px 40px;position:relative;overflow:hidden;">
+        <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:14px;">Incluido siempre</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:3.8rem;font-weight:400;color:white;line-height:1;margin-bottom:6px;">GRATIS</div>
+        <div style="font-size:0.95rem;font-weight:600;color:rgba(255,255,255,0.9);margin-bottom:24px;">Primera visita</div>
+        <ul style="list-style:none;font-size:0.75rem;color:rgba(255,255,255,0.65);line-height:2.1;">
+          <li>✓ Exploración completa</li>
+          <li>✓ Radiografía panorámica</li>
+          <li>✓ Diagnóstico personalizado</li>
+          <li>✓ Presupuesto sin compromiso</li>
+        </ul>
+        <div style="position:absolute;right:-24px;bottom:-24px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.07);"></div>
+      </div>
+      <div class="campana-card-light">
+        <div style="font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-muted);margin-bottom:14px;">Precio especial apertura</div>
+        <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:6px;">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:3.8rem;font-weight:400;color:var(--blue);line-height:1;">1.000€</div>
+          <div style="font-size:0.85rem;color:var(--text-muted);text-decoration:line-through;">3.200€</div>
+        </div>
+        <div style="font-size:0.95rem;font-weight:600;color:var(--dark);margin-bottom:18px;">Ortodoncia completa</div>
+        <div class="countdown-label">⏳ Oferta válida durante:</div>
+        <div class="countdown-wrap" id="countdown-timer">
+          <div class="countdown-block"><span class="countdown-num" id="cd-d">--</span><span class="countdown-unit">días</span></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-block"><span class="countdown-num" id="cd-h">--</span><span class="countdown-unit">horas</span></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-block"><span class="countdown-num" id="cd-m">--</span><span class="countdown-unit">min</span></div>
+          <span class="countdown-sep">:</span>
+          <div class="countdown-block"><span class="countdown-num" id="cd-s">--</span><span class="countdown-unit">seg</span></div>
+        </div>
+        <ul style="list-style:none;font-size:0.75rem;color:var(--text-muted);line-height:2.1;">
+          <li>✓ Alineadores invisibles incluidos</li>
+          <li>✓ Revisiones durante el tratamiento</li>
+          <li>✓ Retención final incluida</li>
+          <li>✓ Financiación sin intereses</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="reveal urgent-bar">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span style="width:8px;height:8px;background:#e74c3c;border-radius:50%;flex-shrink:0;animation:bpulse 1.5s infinite;display:inline-block;"></span>
+        <span style="font-size:0.75rem;color:var(--text-light);">Solo quedan <strong style="color:var(--blue);">plazas limitadas</strong> con este precio de apertura</span>
+      </div>
+      <a href="#reserva" style="background:var(--blue);color:white;padding:12px 24px;font-size:0.68rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;text-decoration:none;border-radius:6px;white-space:nowrap;">Reservar ahora</a>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;" class="reveal">
+      <div class="step-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--dark);line-height:1;margin-bottom:14px;">01</div>
+        <div style="font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:10px;">Rellena el formulario</div>
+        <p style="font-size:0.73rem;color:var(--text-muted);line-height:1.7;">Te confirmamos la cita por WhatsApp en menos de 2 horas.</p>
+      </div>
+      <div class="step-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--dark);line-height:1;margin-bottom:14px;">02</div>
+        <div style="font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:10px;">Primera visita gratis</div>
+        <p style="font-size:0.73rem;color:var(--text-muted);line-height:1.7;">Exploración completa, radiografía y diagnóstico. Sin coste, sin compromiso.</p>
+      </div>
+      <div class="step-card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:300;color:var(--dark);line-height:1;margin-bottom:14px;">03</div>
+        <div style="font-size:0.85rem;font-weight:600;color:var(--dark);margin-bottom:10px;">Empieza tu tratamiento</div>
+        <p style="font-size:0.73rem;color:var(--text-muted);line-height:1.7;">Si decides hacer ortodoncia, precio especial de apertura: solo 1.000€.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FORMULARIO -->
+<section class="form-section" id="reserva">
+  <div class="section-eyebrow reveal" style="margin:0 auto 18px;">Primera Cita Prioritaria</div>
+  <h2 class="section-title reveal">Reserva tu cita<br><em>gratuita ahora.</em></h2>
+  <p class="section-desc reveal" style="margin:10px auto 0;text-align:center;">Plazas limitadas. Te confirmamos por WhatsApp en menos de 2 horas.</p>
+  <div class="form-wrap reveal">
+
+    <!-- ERROR -->
+    <div class="form-error-msg" id="form-error">
+      Ha ocurrido un error al enviar el formulario. Por favor, inténtalo de nuevo o llámanos al 653 112 693.
+    </div>
+
+    <!-- CAMPOS -->
+    <div id="form-fields">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Nombre *</label>
+          <input type="text" id="f-nombre" class="form-input" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Teléfono *</label>
+          <input type="tel" id="f-telefono" class="form-input" placeholder="+34 600 000 000" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Correo electrónico *</label>
+        <input type="email" id="f-email" class="form-input" placeholder="tu@email.com" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">¿Qué tratamiento te interesa?</label>
+        <select id="f-tratamiento" class="form-select">
+          <option value="" disabled selected>Selecciona un tratamiento</option>
+          <option>Revisión y limpieza</option>
+          <option>Estética dental</option>
+          <option>Implantes dentales</option>
+          <option>Ortodoncia invisible</option>
+          <option>Urgencia dental</option>
+          <option>Otro tratamiento</option>
+        </select>
+      </div>
+      <button class="btn-submit" id="btn-submit" type="button" onclick="enviarFormulario()">
+        Reservar mi cita gratuita →
+      </button>
+      <p class="form-note">Sin compromiso · Confirmación por WhatsApp en menos de 2h · Datos protegidos</p>
+    </div>
+
+    <!-- ÉXITO -->
+    <div class="form-success" id="form-success">
+      <div class="form-success-icon">✅</div>
+      <div class="form-success-title">¡Solicitud recibida!</div>
+      <p class="form-success-text">En menos de 2 horas recibirás un WhatsApp del Dr. Jesús para confirmar tu cita gratuita.<br><br>Revisa también tu email, te hemos enviado un resumen de tu solicitud.</p>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">
+    <div class="footer-logo-icon" style="padding:0;overflow:hidden;">
+      <svg viewBox="22 18 46 55" width="18" height="18" xmlns="http://www.w3.org/2000/svg">
+        <rect x="22" y="20" width="46" height="28" rx="12" fill="white" opacity="0.95"/>
+        <rect x="22" y="44" width="18" height="27" rx="8" fill="white" opacity="0.95"/>
+        <rect x="50" y="44" width="18" height="27" rx="8" fill="white" opacity="0.95"/>
+        <ellipse cx="33" cy="27" rx="5.5" ry="3" fill="white" opacity="0.28" transform="rotate(-18,33,27)"/>
+      </svg>
+    </div>
+    <span class="footer-logo-text">Dr. Jesús Rodríguez González</span>
+  </div>
+  <div class="footer-text">Policlínica Viriato · Calle Viriato 27 · Madrid · 653 112 693</div>
+</footer>
+
+<div id="toast"></div>
+
+<script>
+  // ========================
+  // SCROLL PROGRESS BAR
+  // ========================
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const total = document.body.scrollHeight - window.innerHeight;
+    progressBar.style.width = (window.scrollY / total * 100) + '%';
+  }, { passive: true });
+
+  // ========================
+  // NAV SHRINK ON SCROLL
+  // ========================
+  const navEl = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    navEl.classList.toggle('scrolled', window.scrollY > 60);
+  }, { passive: true });
+
+  // ========================
+  // TEMA
+  // ========================
+  const themeToggle = document.getElementById('theme-toggle');
+  const applyTheme = theme => {
+    document.body.classList.toggle('dark-mode', theme === 'dark');
+    themeToggle.textContent = theme === 'dark' ? 'Modo claro' : 'Modo oscuro';
+  };
+  applyTheme(localStorage.getItem('theme') || 'light');
+  themeToggle.addEventListener('click', () => {
+    const next = document.body.classList.contains('dark-mode') ? 'light' : 'dark';
+    applyTheme(next);
+    localStorage.setItem('theme', next);
+  });
+
+  // ========================
+  // REVEAL ON SCROLL
+  // ========================
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+  // ========================
+  // STATS COUNTER ANIMATION
+  // ========================
+  const counterObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (!e.isIntersecting) return;
+      const el = e.target;
+      const target = parseInt(el.dataset.target);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1800;
+      const start = performance.now();
+      const update = now => {
+        const p = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (p < 1) requestAnimationFrame(update);
+      };
+      requestAnimationFrame(update);
+      counterObs.unobserve(el);
+    });
+  }, { threshold: 0.6 });
+  document.querySelectorAll('[data-target]').forEach(el => counterObs.observe(el));
+
+  // ========================
+  // CYCLING SPECIALTY TEXT
+  // ========================
+  const specialties = ['Ortodoncia Invisible', 'Estética Dental', 'Implantología', 'Odontopediatría', 'Periodoncia'];
+  let specIdx = 0;
+  const specEl = document.getElementById('specialty-text');
+  if (specEl) {
+    setInterval(() => {
+      specEl.style.opacity = '0';
+      specEl.style.transform = 'translateY(8px)';
+      setTimeout(() => {
+        specIdx = (specIdx + 1) % specialties.length;
+        specEl.textContent = specialties[specIdx];
+        specEl.style.opacity = '1';
+        specEl.style.transform = 'translateY(0)';
+      }, 380);
+    }, 2800);
+  }
+
+  // ========================
+  // COUNTDOWN TIMER
+  // ========================
+  const deadline = new Date();
+  deadline.setDate(deadline.getDate() + 14);
+  deadline.setHours(23, 59, 59, 0);
+  const cdD = document.getElementById('cd-d');
+  const cdH = document.getElementById('cd-h');
+  const cdM = document.getElementById('cd-m');
+  const cdS = document.getElementById('cd-s');
+  const pad = n => String(n).padStart(2, '0');
+  if (cdD) {
+    const tick = () => {
+      const diff = deadline - new Date();
+      if (diff <= 0) { cdD.closest('.countdown-wrap').innerHTML = '<span style="color:var(--blue);font-size:0.8rem;font-weight:600;">¡Oferta finalizada!</span>'; return; }
+      cdD.textContent = pad(Math.floor(diff / 86400000));
+      cdH.textContent = pad(Math.floor((diff % 86400000) / 3600000));
+      cdM.textContent = pad(Math.floor((diff % 3600000) / 60000));
+      cdS.textContent = pad(Math.floor((diff % 60000) / 1000));
+    };
+    tick();
+    setInterval(tick, 1000);
+  }
+
+  // ========================
+  // PARALLAX HERO
+  // ========================
+  const heroPhoto = document.querySelector('.hero-photo');
+  if (heroPhoto) {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY < window.innerHeight * 1.2) {
+        heroPhoto.style.transform = 'translateY(' + (window.scrollY * 0.28) + 'px)';
+      }
+    }, { passive: true });
+  }
+
+  // ========================
+  // TOAST NOTIFICATION
+  // ========================
+  function showToast(msg, duration = 4000) {
+    const toast = document.getElementById('toast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), duration);
+  }
+  setTimeout(() => showToast('🦷 Plazas limitadas — reserva tu cita gratuita hoy'), 14000);
+
+  // ========================
+  // FORMULARIO
+  // ========================
+  async function enviarFormulario() {
+    const nombre = document.getElementById('f-nombre').value.trim();
+    const telefono = document.getElementById('f-telefono').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const tratamiento = document.getElementById('f-tratamiento').value || 'Primera visita';
+
+    if (!nombre || !telefono || !email) {
+      const err = document.getElementById('form-error');
+      err.style.display = 'block';
+      err.textContent = 'Por favor, rellena todos los campos obligatorios (nombre, teléfono y email).';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      const err = document.getElementById('form-error');
+      err.style.display = 'block';
+      err.textContent = 'Por favor, introduce un email válido.';
+      return;
+    }
+
+    const btn = document.getElementById('btn-submit');
+    btn.disabled = true;
+    btn.textContent = 'Enviando...';
+    document.getElementById('form-error').style.display = 'none';
+
+    try {
+      const WEBHOOK_URL = 'https://clinicas-dentales-n8n.blpzay.easypanel.host/webhook/dental-lead-web';
+      const response = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nombre, telefono, email, tratamiento })
+      });
+      if (response.ok || response.status === 200) {
+        document.getElementById('form-fields').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+        document.getElementById('form-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        showToast('✅ ¡Cita solicitada! Te confirmamos en menos de 2h.');
+      } else {
+        throw new Error('Error en el servidor');
+      }
+    } catch {
+      const err = document.getElementById('form-error');
+      err.style.display = 'block';
+      err.textContent = 'Ha ocurrido un error. Por favor, inténtalo de nuevo o llámanos al 653 112 693.';
+      btn.disabled = false;
+      btn.textContent = 'Reservar mi cita gratuita →';
+    }
+  }
+
+  document.querySelectorAll('.form-input, .form-select').forEach(input => {
+    input.addEventListener('keypress', e => { if (e.key === 'Enter') enviarFormulario(); });
+  });
+</script>
+</body>
+</html>
