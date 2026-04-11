@@ -59,16 +59,23 @@
   .nav-right { display: flex; align-items: center; gap: 18px; }
   .nav-link { font-size: 0.75rem; color: var(--text-muted); text-decoration: none; transition: color 0.3s; }
   .nav-link:hover { color: var(--blue); }
-  .nav-cta, .theme-toggle {
+  .nav-cta {
     display: inline-flex; align-items: center; justify-content: center;
     background: var(--blue); color: white;
-    padding: 10px 18px; font-size: 0.72rem; font-weight: 500;
-    text-decoration: none; border: none; border-radius: 6px;
-    transition: background 0.3s, transform 0.15s;
+    padding: 10px 18px; font-size: 0.72rem; font-weight: 600;
+    text-decoration: none; border: none; border-radius: 8px;
+    transition: all 0.3s ease;
     cursor: pointer;
   }
-  .nav-cta:hover, .theme-toggle:hover { background: var(--blue-light); }
-  .theme-toggle { min-width: 42px; }
+  .nav-cta:hover { background: var(--blue-light); box-shadow: 0 4px 14px rgba(26,86,219,0.25); }
+  .theme-toggle {
+    display: inline-flex; align-items: center; justify-content: center;
+    background: rgba(26,86,219,0.08); color: var(--blue);
+    padding: 10px 16px; font-size: 0.72rem; font-weight: 600;
+    border: none; border-radius: 8px; cursor: pointer;
+    transition: all 0.3s ease; min-width: 42px;
+  }
+  .theme-toggle:hover { background: rgba(26,86,219,0.15); }
 
   /* HERO */
   .hero {
@@ -214,6 +221,8 @@
     --blue: #60a5fa; --blue-light: #93c5fd; --blue-soft: rgba(96,165,250,0.18);
   }
   body.dark-mode nav { background: rgba(10,18,40,0.94); border-bottom-color: rgba(96,165,250,0.08); }
+  body.dark-mode .theme-toggle { background: rgba(96,165,250,0.12); color: #93c5fd; }
+  body.dark-mode .theme-toggle:hover { background: rgba(96,165,250,0.2); }
   body.dark-mode .hero { background: linear-gradient(180deg, rgba(15,23,42,0.92) 0%, rgba(10,18,40,0.98) 100%); }
   body.dark-mode .hero-overlay { background: radial-gradient(circle at top right, rgba(96,165,250,0.15), transparent 40%), linear-gradient(90deg, rgba(11,18,34,1) 0%, rgba(11,18,34,0.85) 55%, transparent 100%); }
   body.dark-mode .hero-location { background: rgba(15,23,42,0.88); border-color: rgba(96,165,250,0.16); color: #edf2ff; }
@@ -237,11 +246,22 @@
   /* RESPONSIVE */
   @media (max-width: 768px) {
     /* NAV */
-    nav { padding: 12px 16px; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
+    nav { padding: 14px 20px; flex-wrap: wrap; gap: 12px; justify-content: space-between; }
+    .nav-logo-icon { width: 32px; height: 32px; }
     .nav-logo-text { display: none; }
     .nav-right { gap: 8px; }
-    .nav-cta, .theme-toggle { padding: 8px 12px; font-size: 0.7rem; min-width: auto; }
-    .nav-promo { order: 3; width: 100%; justify-content: center; text-align: center; font-size: 0.7rem; padding: 8px; }
+    .nav-cta, .theme-toggle { padding: 8px 14px; font-size: 0.72rem; min-width: auto; }
+    .nav-promo { 
+      order: 3; width: 100%; justify-content: center; text-align: center; 
+      font-size: 0.72rem; padding: 10px; border-radius: 10px; 
+      background: rgba(26,86,219,0.06); border: 1px solid rgba(26,86,219,0.12); 
+      color: var(--blue); box-shadow: none; margin-top: 2px;
+    }
+    .nav-promo strong { color: var(--dark); font-weight: 700; }
+    .nav-promo-dot { background: var(--blue); }
+    body.dark-mode .nav-promo { background: rgba(96,165,250,0.1); border-color: rgba(96,165,250,0.15); color: #93c5fd; }
+    body.dark-mode .nav-promo strong { color: #edf2ff; }
+    body.dark-mode .nav-promo-dot { background: #60a5fa; }
     .nav-link { display: none; }
 
     /* HERO */
@@ -282,7 +302,7 @@
   /* NAV SCROLL EFFECT */
   nav { transition: padding 0.35s ease, box-shadow 0.35s ease; }
   nav.scrolled { padding: 10px 60px; box-shadow: 0 6px 28px rgba(26,86,219,0.13); }
-  @media (max-width: 768px) { nav.scrolled { padding: 8px 16px; } }
+  @media (max-width: 768px) { nav.scrolled { padding: 10px 20px; } }
 
   /* STATS BANNER */
   .stats-banner { background: var(--blue); padding: 30px 60px; display: flex; justify-content: center; gap: 0; overflow: hidden; position: relative; }
