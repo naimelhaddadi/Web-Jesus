@@ -1,0 +1,3948 @@
+{
+  "name": "Recepcionista Dr. Jesús - v3 (Multi-sede: Madrid + Valladolid)",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('⚙️ Normalizar Datos Lead1').item.json.telefono }}",
+        "message": "={{ $json.output }}",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "id": "435a4e94-34de-48f3-80e1-066b00237507",
+      "name": "💬 WhatsApp: Bienvenida (< 2 min)",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        11072,
+        7040
+      ],
+      "webhookId": "367f9325-eca6-48a0-879f-f199d55dc17b",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('📥 ENTRADA 5: Respuesta WhatsApp Paciente1').item.json.body.From.replace('whatsapp:', '') }}",
+        "message": "={{ $json.mensaje }}",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "id": "4ef7936b-4217-43d5-8131-160efc57ecc5",
+      "name": "💬 WhatsApp: Respuesta del Agente IA",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        10400,
+        6144
+      ],
+      "webhookId": "900ca32a-3cb1-4d1a-9931-24eb36c4e399",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "sendAndWait",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('⚙️ Normalizar Datos Lead1').item.json.telefono }}",
+        "message": "=Hola {{ $('⚙️ Normalizar Datos Lead1').item.json.nombre }} 😊 Hace 2 días solicitaste tu visita gratuita con el Dr. Jesús y aún no hemos podido agendar. ¿Qué franja horaria te viene mejor: mañana (10-14h), tarde (14-17h) o noche (17-20h)? 🦷",
+        "responseType": "freeText",
+        "options": {}
+      },
+      "id": "b4eb3958-c64a-47f7-943c-44279743e47e",
+      "name": "💬 WhatsApp: Seguimiento 48h1",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        10784,
+        7472
+      ],
+      "webhookId": "99981fb7-1081-468a-bf08-1a4caee3302c",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $json.telefono }}",
+        "textBody": "=Hola {{ $json.nombre }}, este es nuestro último mensaje. Hemos liberado tu plaza al no recibir respuesta. Si en el futuro quieres retomar tu caso, escríbenos y buscaremos un nuevo hueco. Un saludo.",
+        "additionalFields": {}
+      },
+      "id": "67fd6f35-6b87-42d6-8597-cf65c92f6755",
+      "name": "💬 WhatsApp: Seguimiento Final (7 días)1",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        11520,
+        7472
+      ],
+      "webhookId": "a321ecce-db42-4fd9-83a1-ef15cca6994f",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $json.telefono }}",
+        "textBody": "=Hola {{ $json.nombre }}, tu cita ha sido cancelada correctamente. Si quieres reservar en otra fecha, escríbenos cuando quieras. Un saludo.",
+        "additionalFields": {}
+      },
+      "id": "5205b35d-e8af-4eb9-85a6-5ae1b4ccbfff",
+      "name": "💬 WhatsApp: Confirmar Cancelación1",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        9600,
+        8272
+      ],
+      "webhookId": "3ff99009-65bf-4afb-9e77-af1243948e55",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('🚫 CANCELACIÓN: Procesar1').first().json;\nconst subject = '❌ Cancelación de cita — ' + (d.nombre || 'Paciente');\nconst body = ['Un paciente ha cancelado su cita:','','Nombre: ' + (d.nombre || ''),'Teléfono: ' + (d.telefono || ''),'LeadId: ' + (d.leadId || ''),'','Origen: Formulario web','Timestamp: ' + (d.timestamp_cancelacion || new Date().toISOString())].join('\\n');\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: naimprincipal@gmail.com','Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "ff461bd7-c47e-4e8d-bcf7-67ce00018d39",
+      "name": "⚙️ Preparar Email Notif Cancelación",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9600,
+        8464
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        9824,
+        8464
+      ],
+      "id": "5de04eff-8b69-4f23-a52d-3414806c613a",
+      "name": "Notificar Jesus Cancelación",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('📊 Sheets: Buscar Paciente').item.json.telefono }}",
+        "textBody": "=¡Genial {{ $('📊 Sheets: Buscar Paciente').item.json.nombre }}! 🦷 Tu cita queda confirmada para el {{ $('⚙️ Calcular Hueco Libre').first().json.fecha_cita }} a las {{ $('⚙️ Calcular Hueco Libre').first().json.hora_cita }} en Policlínica Viriato (Calle Viriato 27, Madrid). ¡Te esperamos!",
+        "additionalFields": {}
+      },
+      "id": "f1126197-03e3-4bd8-a131-8217cf5bd002",
+      "name": "💬 WhatsApp: Confirmar Cita al Paciente1",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        12640,
+        6144
+      ],
+      "webhookId": "68b4966d-b5ec-46c4-93b9-d8175f19aebf",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $json.telefono }}",
+        "textBody": "=⏰ Hola {{ $json.nombre }}, recordatorio: mañana tienes cita con el Dr. Jesús a las {{ $json.hora_cita }} en Policlínica Viriato (Calle Viriato 27, Madrid). ¡Te esperamos!",
+        "additionalFields": {}
+      },
+      "id": "0c7c7fc2-3147-4019-a0aa-63769fb2c3e9",
+      "name": "💬 WhatsApp: Recordatorio 24h2",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        13536,
+        6144
+      ],
+      "webhookId": "c6d4cc06-e40e-431b-aca5-8244861c292f",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $json.telefono }}",
+        "textBody": "=Hola {{ $json.nombre }}, esperamos que tu visita haya ido genial 🦷 ¿Nos ayudarías con una reseña? 👉 https://www.doctoralia.es/anade-opinion/jesus-rodriguez-gonzalez-2#/opinion ¡Gracias!",
+        "additionalFields": {}
+      },
+      "id": "3dec78fe-b173-42be-b0d1-fe96239035f0",
+      "name": "⭐ WhatsApp: Pedir Reseña1",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        13760,
+        6240
+      ],
+      "webhookId": "c879595d-37a3-42dd-aefb-2f5008c117ed",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('⚙️ Analizar Respuesta IA').item.json.telefonoPaciente.replace('whatsapp:', '') }}",
+        "textBody": "=Lo siento, en esa franja no nos queda hueco. El Dr. Jesús te llamará personalmente para buscarte un momento que te encaje 🙏",
+        "additionalFields": {}
+      },
+      "id": "75277444-dc98-4bc0-8dff-2a7235d546cf",
+      "name": "💬 WhatsApp: Sin Disponibilidad",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        11744,
+        6432
+      ],
+      "webhookId": "6f9c5802-a3a6-4e68-b564-5a65c43e6998",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('📊 Sheets: Buscar Paciente').first().json;\nconst subject = '⚠️ Sin hueco — ' + (d.nombre || 'Paciente');\nconst body = ['Un paciente quiere agendar pero no hay disponibilidad en la franja solicitada:','','Nombre: ' + (d.nombre || ''),'Teléfono: ' + (d.telefono || ''),'Email: ' + (d.email || ''),'LeadId: ' + (d.leadId || ''),'','Acción recomendada: llamar al paciente y ofrecer alternativa.'].join('\\n');\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: naimprincipal@gmail.com','Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "4a377f6b-0eb9-4d8f-9523-708cb496f954",
+      "name": "⚙️ Preparar Email Notif Sin Hueco",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11744,
+        6624
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11968,
+        6624
+      ],
+      "id": "30dd7eb8-e9d9-43db-8c9a-73a1ee618d74",
+      "name": "Notificar Jesus Sin Hueco",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('📊 Sheets: Buscar Paciente (Cancelar)').first().json;\nconst subject = '❌ Cancelación por WhatsApp — ' + (d.nombre || 'Paciente');\nconst body = ['Un paciente ha cancelado su cita por WhatsApp:','','Nombre: ' + (d.nombre || ''),'Teléfono: ' + (d.telefono || ''),'LeadId: ' + (d.leadId || ''),'','Origen: WhatsApp','Timestamp: ' + new Date().toISOString()].join('\\n');\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: naimprincipal@gmail.com','Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "083e3f41-1bb0-4e10-9d9b-94e395f60d69",
+      "name": "⚙️ Preparar Email Notif Cancelación WA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11968,
+        5952
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        12192,
+        5952
+      ],
+      "id": "89bbb4f2-5d6f-41cb-baac-14fd74d7b12c",
+      "name": "Notificar Jesus Cancelación WA",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "eb851a4d-1f7f-44cb-a66c-525a4724aaf1",
+      "name": "✅ Responder WhatsApp",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        8928,
+        6160
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('⚙️ Normalizar Datos Lead1').first().json.telefono }}",
+        "contextWindowLength": 10
+      },
+      "id": "c58bcb6c-5af5-4469-8b30-1fa4211fd941",
+      "name": "🧠 Memoria — Window Buffer",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        10864,
+        7248
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "maxTokens": 300,
+          "temperature": 0.4
+        }
+      },
+      "id": "3f6cee76-af1d-472b-b73d-f17ad3a43d62",
+      "name": "⚡ OpenAI GPT-4o",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        10736,
+        7248
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wwypVyaXYLTIZeLq",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.body.From }}",
+        "contextWindowLength": 10
+      },
+      "id": "6517f047-998e-402f-8cf8-b463ab3ba79a",
+      "name": "🧠 Memoria — Window Buffer1",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        9968,
+        6384
+      ]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "maxTokens": 300,
+          "temperature": 0.4
+        }
+      },
+      "id": "b7eb428d-486c-4458-9e55-54c45f9f736b",
+      "name": "⚡ OpenAI GPT-4o1",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.1,
+      "position": [
+        9840,
+        6384
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "wwypVyaXYLTIZeLq",
+          "name": "OpenAI account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"mensaje\": \"Solicitud recibida. Te contactamos en menos de 2 horas.\" }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "7e5223e0-7e80-4100-ba32-67502c6b4c4b",
+      "name": "✅ Responder Formulario Web",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        8928,
+        7376
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "87cae0be-70e4-47d5-a4ec-e29957ef68ce",
+      "name": "✅ Responder Meta",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        8928,
+        7568
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"mensaje\": \"Cita cancelada correctamente.\" }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "f7347165-69da-4cf8-bf95-d974c03665ec",
+      "name": "✅ Responder Cancelación",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        8928,
+        8368
+      ]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"ok\": true, \"mensaje\": \"Asistencia confirmada. Te esperamos.\" }",
+        "options": {
+          "responseCode": 200
+        }
+      },
+      "id": "deb4033e-3f0a-45e8-907c-08eb2a2c477b",
+      "name": "✅ Responder Confirmación",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        8928,
+        8688
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dental-lead-web",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*",
+          "rawBody": false
+        }
+      },
+      "id": "c6a2134b-f719-467c-86c5-7d21c0cc994f",
+      "name": "📥 ENTRADA 1: Formulario Web1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        8704,
+        7376
+      ],
+      "webhookId": "e91a5e0a-2206-4658-a94d-2639710583bf"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dental-lead-meta",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*",
+          "rawBody": false
+        }
+      },
+      "id": "abcb37ff-451c-4297-8e6f-8f9b73fdc842",
+      "name": "📥 ENTRADA 2: Meta Lead Ads1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        8704,
+        7568
+      ],
+      "webhookId": "860c2637-e57a-4b05-9e06-4fc04c3df2a6"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dental-whatsapp-respuesta",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*",
+          "rawBody": false
+        }
+      },
+      "id": "a6cf49c6-7f29-4fb1-8da7-353a27ca8c07",
+      "name": "📥 ENTRADA 5: Respuesta WhatsApp Paciente1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        8704,
+        6160
+      ],
+      "webhookId": "791f1ccc-2bc3-455b-a691-892474f60ba9"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dental-cancelacion",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*",
+          "rawBody": false
+        }
+      },
+      "id": "b6f4bfc8-8117-4310-aaae-9cff66ab6182",
+      "name": "📥 ENTRADA 3: Cancelación de Cita1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        8704,
+        8368
+      ],
+      "webhookId": "4cc5bc61-612d-4a02-8935-3afb14cdad61"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "dental-confirmar",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "*",
+          "rawBody": false
+        }
+      },
+      "id": "8be2f611-1860-4978-80e1-a4e1bd5c67c1",
+      "name": "📥 ENTRADA 4: Confirmación Asistencia1",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        8704,
+        8688
+      ],
+      "webhookId": "78736fc3-54bb-4ed2-a9ac-a5522e2fb740"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ════════════════════════════════════════════════════════════════\n// NORMALIZAR DATOS LEAD + RESOLUCIÓN DINÁMICA DE SEDE (multi-sede)\n// Mantiene exactamente la salida original y AÑADE las variables sede_*\n// ════════════════════════════════════════════════════════════════\nconst input = $input.first().json;\nconst item  = input.body || input;\n\nconst isMetaLead = item.field_data !== undefined;\nlet nombre, telefono, email, tratamiento, sedeRaw;\n\nif (isMetaLead) {\n  const fields = item.field_data || [];\n  nombre      = fields.find(f => f.name === 'full_name')?.values?.[0] || 'Paciente';\n  telefono    = fields.find(f => f.name === 'phone_number')?.values?.[0] || '';\n  email       = fields.find(f => f.name === 'email')?.values?.[0] || '';\n  tratamiento = fields.find(f => f.name === 'tratamiento')?.values?.[0] || 'Primera visita';\n  sedeRaw     = fields.find(f => f.name === 'sede')?.values?.[0] || item.sede || 'madrid';\n} else {\n  nombre      = item.nombre || item.name || item.Nombre || 'Paciente';\n  telefono    = String(item.telefono || item.phone || item.Telefono || '').trim();\n  email       = item.email || item.Email || '';\n  tratamiento = item.tratamiento || item.Tratamiento || 'Primera visita';\n  sedeRaw     = item.sede || item.Sede || 'madrid';\n}\n\ntelefono = telefono.replace(/\\s/g, '').replace(/-/g, '').replace(/\\./g, '');\nif (telefono && !telefono.startsWith('+')) {\n  if (telefono.startsWith('6') || telefono.startsWith('7') || telefono.startsWith('9')) telefono = '+34' + telefono;\n}\nnombre = nombre.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1).toLowerCase()).join(' ');\n\nconst leadId = 'IDV-' + Date.now().toString(36).toUpperCase();\nconst ahora = new Date();\nconst fecha = ahora.toLocaleDateString('es-ES', { weekday:'long', year:'numeric', month:'long', day:'numeric' });\nconst hora  = ahora.toLocaleTimeString('es-ES', { hour:'2-digit', minute:'2-digit' });\n\n// ───────────── CONFIGURACIÓN CENTRALIZADA DE SEDES ─────────────\n// Para añadir una 3ª sede: duplica un bloque y cambia los valores. NADA más.\nconst SEDES = {\n  madrid: {\n    nombre_sede:  'Madrid',\n    direccion:    'Policlínica Viriato, Calle Viriato 27, 28010 Madrid (Chamberí)',\n    horario:      'Lunes a Viernes de 10:00 a 20:00',\n    telefono_wsp: '+34602713289',\n    calendarId:   'drjesusrodriguezgonzalez@gmail.com',\n    resenas_url:  'https://g.page/r/REEMPLAZAR_MADRID/review',\n    email_sede:   'drjesusrodriguezortodoncia@gmail.com',\n    zona:         'Metro Iglesia / Canal'\n  },\n  valladolid: {\n    nombre_sede:  'Valladolid',\n    direccion:    'Calle Santiago 12, 47001 Valladolid (junto a la Plaza Mayor)',\n    horario:      'Lunes a Viernes de 09:30 a 19:30',\n    telefono_wsp: '+34602713289',\n    calendarId:   'drjesusvalladolid@gmail.com',\n    resenas_url:  'https://g.page/r/REEMPLAZAR_VALLADOLID/review',\n    email_sede:   'drjesusvalladolid@gmail.com',\n    zona:         'Centro histórico (junto a Plaza Mayor)'\n  }\n};\n\nlet sede = String(sedeRaw || 'madrid').trim().toLowerCase();\nif (!SEDES[sede]) sede = 'madrid';          // fallback seguro\nconst cfg = SEDES[sede];\n\nreturn [{ json: {\n  // ── salida original (NO tocar: la usan nodos posteriores) ──\n  nombre, telefono,\n  telefono_whatsapp: 'whatsapp:' + telefono,\n  email, tratamiento,\n  fuente: isMetaLead ? 'Meta Lead Ads' : 'Formulario Web',\n  estado: 'nuevo',\n  leadId,\n  fecha_entrada: fecha,\n  hora_entrada: hora,\n  timestamp: ahora.toISOString(),\n  cita_agendada: false,\n  cita_confirmada: false,\n  cita_cancelada: false,\n  seguimientos_enviados: 0,\n\n  // ── variables dinámicas de sede ──\n  sede,\n  sede_nombre:      cfg.nombre_sede,\n  sede_direccion:   cfg.direccion,\n  sede_horario:     cfg.horario,\n  sede_telefono:    cfg.telefono_wsp,\n  sede_calendarId:  cfg.calendarId,\n  sede_resenas_url: cfg.resenas_url,\n  sede_email:       cfg.email_sede,\n  sede_zona:        cfg.zona\n}}];"
+      },
+      "id": "4e7780db-05a4-4dd6-a4c5-d4e367f0d71e",
+      "name": "⚙️ Normalizar Datos Lead1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9152,
+        7472
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const item=$input.first().json;const body=item.body||item;const query=item.query||{};\nconst leadId=body.leadId||query.leadId||body.uid||'';const nombre=body.nombre||query.nombre||'Paciente';\nconst booking_uid=body.uid||body.booking_uid||'';const telefono=body.telefono||query.telefono||'';\nreturn[{json:{...item,leadId,nombre,telefono,booking_uid,tipo_cancelacion:'paciente',timestamp_cancelacion:new Date().toISOString()}}];"
+      },
+      "id": "9d400682-1fa2-4616-bfa4-3fc91c560042",
+      "name": "🚫 CANCELACIÓN: Procesar1",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9152,
+        8368
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const output=$input.first().json.output||'';\nconst mensajePaciente=$('📥 ENTRADA 5: Respuesta WhatsApp Paciente1').item.json.body?.Body||'';\nconst rTC=output.match(/\\|\\|\\|RESERVAR:tarde:(\\d{4}-\\d{2}-\\d{2}):(\\d{2}:\\d{2})\\|\\|\\|/i);\nconst rMC=output.match(/\\|\\|\\|RESERVAR:manana:(\\d{4}-\\d{2}-\\d{2}):(\\d{2}:\\d{2})\\|\\|\\|/i);\nconst reTC=output.match(/\\|\\|\\|REAGENDAR:tarde:(\\d{4}-\\d{2}-\\d{2}):(\\d{2}:\\d{2})\\|\\|\\|/i);\nconst reMC=output.match(/\\|\\|\\|REAGENDAR:manana:(\\d{4}-\\d{2}-\\d{2}):(\\d{2}:\\d{2})\\|\\|\\|/i);\nconst rTF=output.match(/\\|\\|\\|RESERVAR:tarde:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst rMF=output.match(/\\|\\|\\|RESERVAR:manana:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst rCF=output.match(/\\|\\|\\|RESERVAR:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst reTF=output.match(/\\|\\|\\|REAGENDAR:tarde:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst reMF=output.match(/\\|\\|\\|REAGENDAR:manana:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst reCF=output.match(/\\|\\|\\|REAGENDAR:(\\d{4}-\\d{2}-\\d{2})\\|\\|\\|/i);\nconst rTM=output.match(/\\|\\|\\|RESERVAR:tarde\\|\\|\\|/i);const rMM=output.match(/\\|\\|\\|RESERVAR:manana\\|\\|\\|/i);\nconst rM=output.match(/\\|\\|\\|RESERVAR\\|\\|\\|/i);const reM=output.match(/\\|\\|\\|REAGENDAR:(mañana|tarde|noche)\\|\\|\\|/i);\nconst rAM=output.match(/\\|\\|\\|RESERVAR_ADICIONAL:(mañana|tarde|noche)\\|\\|\\|/i);\nconst canM=output.match(/\\|\\|\\|CANCELAR\\|\\|\\|/i);const conM=output.match(/\\|\\|\\|CONFIRMAR\\|\\|\\|/i);\nlet mensaje=output.replace(/\\|\\|\\|RESERVAR:tarde:\\d{4}-\\d{2}-\\d{2}:\\d{2}:\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:manana:\\d{4}-\\d{2}-\\d{2}:\\d{2}:\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:tarde:\\d{4}-\\d{2}-\\d{2}:\\d{2}:\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:manana:\\d{4}-\\d{2}-\\d{2}:\\d{2}:\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:tarde:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:manana:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:tarde:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:manana:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:\\d{4}-\\d{2}-\\d{2}\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:tarde\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR:manana\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR\\|\\|\\|/gi,'').replace(/\\|\\|\\|REAGENDAR:(mañana|tarde|noche)\\|\\|\\|/gi,'').replace(/\\|\\|\\|RESERVAR_ADICIONAL:(mañana|tarde|noche)\\|\\|\\|/gi,'').replace(/\\|\\|\\|CANCELAR\\|\\|\\|/gi,'').replace(/\\|\\|\\|CONFIRMAR\\|\\|\\|/gi,'').trim();\nlet accion='conversar',franja='',fecha_preferida='',hora_solicitada='',hora_inicio_franja='10:00',hora_fin_franja='20:00';\nif(rTC){accion='reservar';franja='tarde';fecha_preferida=rTC[1];hora_solicitada=rTC[2];hora_inicio_franja='14:00';hora_fin_franja='20:00';}\nelse if(rMC){accion='reservar';franja='manana';fecha_preferida=rMC[1];hora_solicitada=rMC[2];hora_inicio_franja='10:00';hora_fin_franja='14:00';}\nelse if(reTC){accion='reagendar';franja='tarde';fecha_preferida=reTC[1];hora_solicitada=reTC[2];hora_inicio_franja='14:00';hora_fin_franja='20:00';}\nelse if(reMC){accion='reagendar';franja='manana';fecha_preferida=reMC[1];hora_solicitada=reMC[2];hora_inicio_franja='10:00';hora_fin_franja='14:00';}\nelse if(rTF){accion='reservar';franja='tarde';fecha_preferida=rTF[1];hora_inicio_franja='14:00';hora_fin_franja='20:00';}\nelse if(rMF){accion='reservar';franja='manana';fecha_preferida=rMF[1];hora_inicio_franja='10:00';hora_fin_franja='14:00';}\nelse if(rCF){accion='reservar';franja='';fecha_preferida=rCF[1];hora_inicio_franja='10:00';hora_fin_franja='20:00';}\nelse if(reTF){accion='reagendar';franja='tarde';fecha_preferida=reTF[1];hora_inicio_franja='14:00';hora_fin_franja='20:00';}\nelse if(reMF){accion='reagendar';franja='manana';fecha_preferida=reMF[1];hora_inicio_franja='10:00';hora_fin_franja='14:00';}\nelse if(reCF){accion='reagendar';franja='';fecha_preferida=reCF[1];hora_inicio_franja='10:00';hora_fin_franja='20:00';}\nelse if(rTM){accion='reservar';franja='tarde';hora_inicio_franja='14:00';hora_fin_franja='20:00';}\nelse if(rMM){accion='reservar';franja='manana';hora_inicio_franja='10:00';hora_fin_franja='14:00';}\nelse if(rM){accion='reservar';franja='';hora_inicio_franja='10:00';hora_fin_franja='20:00';}\nelse if(reM){accion='reagendar';franja=reM[1].toLowerCase();if(franja==='mañana'){hora_inicio_franja='10:00';hora_fin_franja='14:00';}else if(franja==='tarde'){hora_inicio_franja='14:00';hora_fin_franja='20:00';}else if(franja==='noche'){hora_inicio_franja='17:00';hora_fin_franja='20:00';}}\nelse if(rAM){accion='reservar_adicional';franja=rAM[1].toLowerCase();if(franja==='mañana'){hora_inicio_franja='10:00';hora_fin_franja='14:00';}else if(franja==='tarde'){hora_inicio_franja='14:00';hora_fin_franja='20:00';}else if(franja==='noche'){hora_inicio_franja='17:00';hora_fin_franja='20:00';}}\nelse if(canM){accion='cancelar';}\nelse if(conM){accion='confirmar';}\nfunction xH(t){const m=t.match(/(?:a las?|las?)\\s*(\\d{1,2})(?:[h:.](\\d{2}))?/i);if(!m)return'';const h=parseInt(m[1],10);const min=parseInt(m[2]||'0',10);if(h<0||h>23||min<0||min>59)return'';return String(h).padStart(2,'0')+':'+String(min).padStart(2,'0');}\nfunction xF(t){const ms={enero:'01',febrero:'02',marzo:'03',abril:'04',mayo:'05',junio:'06',julio:'07',agosto:'08',septiembre:'09',octubre:'10',noviembre:'11',diciembre:'12'};const r=/(?:el\\s+)?(?:lunes|martes|mi[eé]rcoles|jueves|viernes|s[aá]bado|domingo)?\\s*(\\d{1,2})\\s+de\\s+(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/i;const m=t.match(r);if(!m)return'';const dia=String(parseInt(m[1])).padStart(2,'0');const mes=ms[m[2].toLowerCase()];const ahora=new Date();let anio=ahora.getFullYear();if(parseInt(mes)<ahora.getMonth()+1)anio++;return`${anio}-${mes}-${dia}`;}\nfunction xFP(t){if(/\\bpor la tarde\\b|\\btarde\\b/i.test(t))return'tarde';if(/\\bpor la ma[ñn]ana\\b|\\bma[ñn]ana\\b/i.test(t))return'manana';return'';}\nif((accion==='reservar'||accion==='reagendar')&&!hora_solicitada){const h=xH(mensajePaciente);if(h){hora_solicitada=h;if(!franja){const hN=parseInt(h.split(':')[0],10);franja=hN>=14?'tarde':'manana';hora_inicio_franja=hN>=14?'14:00':'10:00';hora_fin_franja=hN>=14?'20:00':'14:00';}}}\nif(accion==='conversar'){const ac=/\\b(he reservado|reservado tu cita|te he reservado|cita confirmada|queda confirmada|agendado tu cita)\\b/i.test(output);if(ac){const fP=xFP(mensajePaciente);const hP=xH(mensajePaciente);if(fP||hP){accion='reservar';franja=fP;if(franja==='tarde'){hora_inicio_franja='14:00';hora_fin_franja='20:00';}if(franja==='manana'){hora_inicio_franja='10:00';hora_fin_franja='14:00';}if(hP){hora_solicitada=hP;if(!franja){const hN=parseInt(hP.split(':')[0],10);franja=hN>=14?'tarde':'manana';hora_inicio_franja=hN>=14?'14:00':'10:00';hora_fin_franja=hN>=14?'20:00':'14:00';}}fecha_preferida=xF(mensajePaciente)||xF(output);}}}\nif(accion==='conversar'){if(/\\bcancel[a-z]*\\b/i.test(mensajePaciente))accion='cancelar';}\nconst telefonoPaciente=$('📥 ENTRADA 5: Respuesta WhatsApp Paciente1').item.json.body.From||'';\nreturn[{json:{mensaje,accion,franja,fecha_preferida,hora_solicitada,hora_inicio_franja,hora_fin_franja,telefonoPaciente}}];"
+      },
+      "id": "c2cac7d0-b0e7-4231-a4c5-8c102ee68387",
+      "name": "⚙️ Analizar Respuesta IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        10176,
+        6160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const paciente=$('📊 Sheets: Buscar Paciente').first().json;\nconst analisis=$('⚙️ Analizar Respuesta IA').first().json;\nconst franja=analisis.franja,horaIni=analisis.hora_inicio_franja,horaFin=analisis.hora_fin_franja;\nconst accion=analisis.accion||'reservar',fecha_preferida=analisis.fecha_preferida||null,hora_solicitada=analisis.hora_solicitada||null;\nconst telefonoBuscar=paciente.telefono||analisis.telefonoPaciente.replace('whatsapp:','');\nlet eventosDisponibles=[];try{eventosDisponibles=$('📅 Calendar: Leer Disponibilidad').all().map(i=>i.json);}catch(e){}\nlet citasExistentes=[];try{citasExistentes=$('📅 Calendar: Leer Citas Existentes').all().map(i=>i.json);}catch(e){}\nconst hoy=new Date();hoy.setHours(0,0,0,0);\nconst diasDisponibles=eventosDisponibles.filter(ev=>ev.summary&&ev.summary.toLowerCase().includes('disponible')).map(ev=>{const start=new Date(ev.start?.dateTime||ev.start?.date);const end=new Date(ev.end?.dateTime||ev.end?.date);const fecha=start.toISOString().split('T')[0];const hIni=String(start.getHours()).padStart(2,'0')+':'+String(start.getMinutes()).padStart(2,'0');const hFin=String(end.getHours()).padStart(2,'0')+':'+String(end.getMinutes()).padStart(2,'0');return{fecha,hora_inicio:hIni||'10:00',hora_fin:hFin||'20:00'};}).filter(d=>new Date(d.fecha)>=hoy).sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));\nif(diasDisponibles.length===0)return[{json:{hayHueco:false,accion,motivo:'No hay disponibilidad en el calendario.'}}];\nconst bloqueos=citasExistentes.filter(ev=>!ev.summary||!ev.summary.toLowerCase().includes('disponible')).filter(ev=>!(accion==='reagendar'&&ev.summary&&ev.summary.includes(telefonoBuscar))).map(ev=>({start:new Date(ev.start?.dateTime||ev.start?.date).getTime(),end:new Date(ev.end?.dateTime||ev.end?.date).getTime()}));\nconst citasPaciente=citasExistentes.filter(ev=>ev.summary&&ev.summary.includes(telefonoBuscar)&&!ev.summary.toLowerCase().includes('disponible')).sort((a,b)=>new Date(b.start?.dateTime||b.start?.date)-new Date(a.start?.dateTime||a.start?.date));\nconst citaPrevia=citasPaciente[0]||null;\nconst cita_previa_id=citaPrevia?citaPrevia.id:null;\nlet diasABuscar=diasDisponibles;\nif(fecha_preferida){const f=diasDisponibles.filter(d=>d.fecha===fecha_preferida);if(f.length>0)diasABuscar=f;}\nfunction intentarSlot(fecha,slot){const[h,m]=slot.split(':').map(Number);const slotMin=h*60+m;const finMinCita=slotMin+15;if(finMinCita>24*60)return null;const hhFin=String(Math.floor(finMinCita/60)).padStart(2,'0');const mmFin=String(finMinCita%60).padStart(2,'0');const inicioLocal=fecha+'T'+slot+':00+02:00';const finLocal=fecha+'T'+hhFin+':'+mmFin+':00+02:00';const slotStartTime=new Date(inicioLocal).getTime();const slotEndTime=slotStartTime+15*60*1000;const hayChoque=bloqueos.some(b=>b.start<slotEndTime&&b.end>slotStartTime);if(hayChoque)return null;return{inicioLocal,finLocal,slotStartTime};}\nfunction construirResultado(slot,resultado){const slotStartObj=new Date(resultado.inicioLocal);const opciones={weekday:'long',year:'numeric',month:'long',day:'numeric'};const fechaTexto=slotStartObj.toLocaleDateString('es-ES',opciones);return{json:{hayHueco:true,accion,leadId:paciente.leadId||'',nombre:paciente.nombre||'',telefono:paciente.telefono||analisis.telefonoPaciente.replace('whatsapp:',''),email:paciente.email||'',fecha_cita:fechaTexto,hora_cita:slot,fecha_inicio_calendar:resultado.inicioLocal,fecha_fin_calendar:resultado.finLocal,fecha_cita_recordatorio:new Date(resultado.slotStartTime-24*60*60*1000).toISOString(),fecha_cita_resena:new Date(resultado.slotStartTime+2*60*60*1000).toISOString(),timestamp_confirmacion:new Date().toISOString(),cita_previa_id}};}\nfor(const dia of diasABuscar){const fecha=dia.fecha;const efIni=horaIni>dia.hora_inicio?horaIni:dia.hora_inicio;const efFin=horaFin<dia.hora_fin?horaFin:dia.hora_fin;const[iniH,iniM]=efIni.split(':').map(Number);const[finH,finM]=efFin.split(':').map(Number);const efIniMin=iniH*60+iniM;const efFinMin=finH*60+finM;if(hora_solicitada){const[solH,solM]=hora_solicitada.split(':').map(Number);const solMin=solH*60+solM;if(solMin>=efIniMin&&solMin+15<=efFinMin){const resultado=intentarSlot(fecha,hora_solicitada);if(resultado)return[construirResultado(hora_solicitada,resultado)];}}let slotMin=efIniMin;while(slotMin+15<=efFinMin){const hh=String(Math.floor(slotMin/60)).padStart(2,'0');const mm=String(slotMin%60).padStart(2,'0');const slot=hh+':'+mm;const resultado=intentarSlot(fecha,slot);if(resultado)return[construirResultado(slot,resultado)];slotMin+=15;}}\nreturn[{json:{hayHueco:false,accion,motivo:'Todos los huecos en la franja '+franja+' están ocupados.'}}];"
+      },
+      "id": "52d172c1-e08e-4d45-abbd-357c186357ef",
+      "name": "⚙️ Calcular Hueco Libre",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11296,
+        6432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const entradaWA=$('📥 ENTRADA 5: Respuesta WhatsApp Paciente1').first().json;\nlet eventosDisponibles=[];try{eventosDisponibles=$('📅 Calendar: Pre-IA: Disponibilidad').all().map(i=>i.json);}catch(e){}\nlet citasExistentes=[];try{citasExistentes=$('📅 Calendar: Pre-IA: Citas').all().map(i=>i.json);}catch(e){}\nconst hoy=new Date();hoy.setHours(0,0,0,0);\nconst bloqueos=citasExistentes.filter(ev=>!ev.summary||!ev.summary.toLowerCase().includes('disponible')).map(ev=>({start:new Date(ev.start?.dateTime||ev.start?.date).getTime(),end:new Date(ev.end?.dateTime||ev.end?.date).getTime()}));\nfunction mT(d){return d.toLocaleTimeString('es-ES',{timeZone:'Europe/Madrid',hour:'2-digit',minute:'2-digit',hour12:false});}\nconst diasConHueco=[];\nfor(const ev of eventosDisponibles){if(!ev.summary||!ev.summary.toLowerCase().includes('disponible'))continue;const start=new Date(ev.start?.dateTime||ev.start?.date);if(start<hoy)continue;const end=new Date(ev.end?.dateTime||ev.end?.date);const fecha=start.toISOString().split('T')[0];const hIni=mT(start);const hFin=mT(end);const[iniH,iniM]=hIni.split(':').map(Number);const[finH,finM]=hFin.split(':').map(Number);let slotMin=iniH*60+iniM;const finMin=finH*60+finM;let hayHueco=false;while(slotMin+15<=finMin){const sS=new Date(fecha+'T'+String(Math.floor(slotMin/60)).padStart(2,'0')+':'+String(slotMin%60).padStart(2,'0')+':00+02:00').getTime();const sE=sS+15*60*1000;if(!bloqueos.some(b=>b.start<sE&&b.end>sS)){hayHueco=true;break;}slotMin+=15;}if(hayHueco){const op={weekday:'long',day:'numeric',month:'long',timeZone:'Europe/Madrid'};const fT=start.toLocaleDateString('es-ES',op);diasConHueco.push({fecha,fechaTexto:fT,hora_inicio:hIni,hora_fin:hFin});}}\ndiasConHueco.sort((a,b)=>new Date(a.fecha)-new Date(b.fecha));\nlet diasTexto='No hay disponibilidad este mes. La próxima disponibilidad será el mes que viene.';\nif(diasConHueco.length>0)diasTexto=diasConHueco.map(d=>`${d.fechaTexto} (${d.hora_inicio} - ${d.hora_fin})`).join(' y ');\nreturn[{json:{body:entradaWA.body,diasDisponibles:diasTexto,hayDisponibilidad:diasConHueco.length>0}}];"
+      },
+      "id": "e4629787-5639-4670-b2fe-79ac8eb6ca10",
+      "name": "⚙️ Formatear Días para IA",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        9600,
+        6160
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const paciente=$(\"📊 Sheets: Buscar Paciente (Cancelar)\").first().json;\nconst telefonoPaciente=$(\"⚙️ Analizar Respuesta IA\").first().json.telefonoPaciente.replace(\"whatsapp:\",\"\");\nlet eventos=[];try{eventos=$(\"📅 Calendar: Leer Citas (Cancelar)\").all().map(i=>i.json);}catch(e){}\nconst eventosPatiente=eventos.filter(ev=>ev.summary&&ev.summary.includes(telefonoPaciente)&&!ev.summary.toLowerCase().includes(\"disponible\"));\nif(eventosPatiente.length===0)return[{json:{leadId:paciente.leadId||\"\",nombre:paciente.nombre||\"\",telefono:telefonoPaciente,calendar_event_id:null,tiene_evento:false,timestamp_cancelacion:new Date().toISOString()}}];\nreturn eventosPatiente.map(ev=>({json:{leadId:paciente.leadId||\"\",nombre:paciente.nombre||\"\",telefono:telefonoPaciente,calendar_event_id:ev.id,tiene_evento:true,timestamp_cancelacion:new Date().toISOString()}}));"
+      },
+      "id": "b76a1c11-6d63-42ba-9710-a9114fde485e",
+      "name": "⚙️ Filtrar y Preparar Cancelación",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11072,
+        5952
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "telefono",
+              "lookupValue": "={{ $json.telefono }}"
+            }
+          ]
+        },
+        "combineFilters": "AND",
+        "options": {}
+      },
+      "id": "aa924d07-2d37-443f-acd0-47003c8b5c9d",
+      "name": "🔍 ¿Lead Duplicado?1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        9376,
+        7472
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Sede": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede }}",
+            "leadId": "={{ $('⚙️ Normalizar Datos Lead1').item.json.leadId }}",
+            "telefono": "={{ $('⚙️ Normalizar Datos Lead1').item.json.telefono }}",
+            "email": "={{ $('⚙️ Normalizar Datos Lead1').item.json.email }}",
+            "tratamiento": "={{ $('⚙️ Normalizar Datos Lead1').item.json.tratamiento }}",
+            "nombre": "={{ $('⚙️ Normalizar Datos Lead1').item.json.nombre }}",
+            "fuente": "={{ $('⚙️ Normalizar Datos Lead1').item.json.fuente }}",
+            "estado": "={{ $('⚙️ Normalizar Datos Lead1').item.json.estado }}",
+            "fecha_entrada": "={{ $('⚙️ Normalizar Datos Lead1').item.json.fecha_entrada }}",
+            "hora_entrada": "={{ $('⚙️ Normalizar Datos Lead1').item.json.hora_entrada }}",
+            "timestamp": "={{ $('⚙️ Normalizar Datos Lead1').item.json.timestamp }}",
+            "cita_agendada": "={{ $('⚙️ Normalizar Datos Lead1').item.json.cita_agendada }}",
+            "cita_confirmada": "={{ $('⚙️ Normalizar Datos Lead1').item.json.cita_confirmada }}",
+            "cita_cancelada": "={{ $('⚙️ Normalizar Datos Lead1').item.json.cita_cancelada }}",
+            "seguimientos_enviados": "={{ $('⚙️ Normalizar Datos Lead1').item.json.seguimientos_enviados }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Sede",
+              "displayName": "Sede",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "nombre",
+              "displayName": "nombre",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefono",
+              "displayName": "telefono",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "email",
+              "displayName": "email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "tratamiento",
+              "displayName": "tratamiento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fuente",
+              "displayName": "fuente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_entrada",
+              "displayName": "fecha_entrada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hora_entrada",
+              "displayName": "hora_entrada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_agendada",
+              "displayName": "cita_agendada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_cita",
+              "displayName": "fecha_cita",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hora_cita",
+              "displayName": "hora_cita",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "booking_uid",
+              "displayName": "booking_uid",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_confirmada",
+              "displayName": "cita_confirmada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_cancelada",
+              "displayName": "cita_cancelada",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seguimientos_enviados",
+              "displayName": "seguimientos_enviados",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notas",
+              "displayName": "notas",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "id": "5f9dfc47-695f-420a-9693-f8d62cabe5c9",
+      "name": "📊 Guardar Lead en Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        9824,
+        7472
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.query.leadId || $json.body.leadId || $json.leadId }}",
+            "estado": "confirmado",
+            "cita_confirmada": "SÍ"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_confirmada",
+              "displayName": "cita_confirmada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7df04c11-2945-4174-955c-c686f6455007",
+      "name": "📊 Sheets: Marcar Cita Confirmada1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        9152,
+        8688
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.leadId }}",
+            "estado": "cancelado",
+            "cita_cancelada": "SÍ",
+            "cita_agendada": "NO"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_cancelada",
+              "displayName": "cita_cancelada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_agendada",
+              "displayName": "cita_agendada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8ecd1291-c1a4-4138-af65-c03e464c8d9d",
+      "name": "📊 Sheets: Marcar Cita Cancelada1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        9376,
+        8368
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "leadId",
+              "lookupValue": "={{ $json.leadId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "3b8d4d2d-cda8-476e-9ad9-f6014ea3ca1d",
+      "name": "🔍 ¿Ya agendó cita? (48h)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        10272,
+        7760
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.leadId }}",
+            "seguimientos_enviados": "1",
+            "estado": "seguimiento_1"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seguimientos_enviados",
+              "displayName": "seguimientos_enviados",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "55648db4-aba0-446a-990b-c43d503829ff",
+      "name": "📊 Sheets: Seguimiento +",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        10784,
+        8048
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "leadId",
+              "lookupValue": "={{ $json.leadId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d77232eb-ac13-45db-94ad-498fb45095c7",
+      "name": "🔍 ¿Sigue sin cita tras 7 días?1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        11072,
+        7664
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.leadId }}",
+            "estado": "lead_frio",
+            "seguimientos_enviados": "2"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "seguimientos_enviados",
+              "displayName": "seguimientos_enviados",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "8bd03ec2-5419-4d6b-b14f-d1ebba56ba42",
+      "name": "📊 Sheets: Marcar Lead Frío1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        11520,
+        7856
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $('⚙️ Calcular Hueco Libre').first().json.leadId }}",
+            "estado": "cita_agendada",
+            "cita_agendada": "SÍ",
+            "fecha_cita": "={{ $('⚙️ Calcular Hueco Libre').first().json.fecha_cita }}",
+            "notas": "=Cita confirmada por Jesús el {{ $('⚙️ Calcular Hueco Libre').first().json.timestamp_confirmacion }}",
+            "row_number": 0,
+            "hora_cita": "={{ $('⚙️ Calcular Hueco Libre').first().json.hora_cita }}"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_agendada",
+              "displayName": "cita_agendada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_cita",
+              "displayName": "fecha_cita",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hora_cita",
+              "displayName": "hora_cita",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notas",
+              "displayName": "notas",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "fd6de541-4b96-4cc3-a00f-2bafe7d875e0",
+      "name": "📊 Sheets: Guardar Fecha de Cita1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        12416,
+        6240
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "telefono",
+              "lookupValue": "={{ $json.telefonoPaciente.replace('whatsapp:', '') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7c960a0a-706a-4e4a-a175-5e77b8c7e4b2",
+      "name": "📊 Sheets: Buscar Paciente",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        10624,
+        6432
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "telefono",
+              "lookupValue": "={{ $('⚙️ Analizar Respuesta IA').item.json.telefonoPaciente.replace('whatsapp:', '') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2e7c4087-578e-469c-a143-79c517606369",
+      "name": "📊 Sheets: Buscar Paciente (Cancelar)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        10624,
+        5952
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.leadId }}",
+            "estado": "cancelado",
+            "cita_cancelada": "SÍ",
+            "cita_agendada": "NO"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_cancelada",
+              "displayName": "cita_cancelada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_agendada",
+              "displayName": "cita_agendada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "5577e0a9-405d-4a9c-a599-464e2eea1d86",
+      "name": "📊 Sheets: Cancelar Cita (WhatsApp)",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        11744,
+        5952
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "leadId",
+              "lookupValue": "={{ $json.leadId }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "d4762679-5441-460e-b834-e8ea87509bf4",
+      "name": "📊 Sheets: Verificar Estado Pre-Recordatorio",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        13088,
+        6144
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "8ae9a428-ea76-4ffd-bf95-85ff35dfb835",
+      "name": "📅 Calendar: Pre-IA: Disponibilidad",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        9152,
+        6160
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "60d5efcb-769c-4a25-b449-79660d2f4491",
+      "name": "📅 Calendar: Pre-IA: Citas",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        9376,
+        6160
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede_calendarId }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "877ea79f-3016-4e30-8b8f-5f9a044decc0",
+      "name": "📅 Calendar: Bienvenida: Disponibilidad",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        10048,
+        7136
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede_calendarId }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "c4741453-50b0-4488-9b58-91476bfe9af8",
+      "name": "📅 Calendar: Bienvenida: Citas",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        10272,
+        7136
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "52e59c86-f39a-4a28-b1c7-202cb28d1420",
+      "name": "📅 Calendar: Leer Disponibilidad",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        10848,
+        6432
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "f7192431-acbb-488f-bd46-d5bc4bc83827",
+      "name": "📅 Calendar: Leer Citas Existentes",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        11072,
+        6432
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "068a7512-8b2f-4c24-9d8c-f6d208b00f79",
+      "name": "📅 Calendar: Leer Citas (Cancelar)",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        10848,
+        5952
+      ],
+      "alwaysOutputData": true,
+      "executeOnce": false,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "start": "={{ $('⚙️ Calcular Hueco Libre').first().json.fecha_inicio_calendar }}",
+        "end": "={{ $('⚙️ Calcular Hueco Libre').first().json.fecha_fin_calendar }}",
+        "additionalFields": {
+          "color": "10",
+          "location": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'Calle Santiago 12, Valladolid' : 'Policlínica Viriato, Calle Viriato 27, Madrid' }}",
+          "summary": "=Cita - {{ $('⚙️ Calcular Hueco Libre').first().json.nombre }} - {{ $('⚙️ Calcular Hueco Libre').first().json.telefono }}"
+        }
+      },
+      "id": "694258e8-e06d-4e45-b16e-cbb5ce7a0a30",
+      "name": "📅 Calendar: Crear Cita",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        12192,
+        6240
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "eventId": "={{ $json.calendar_event_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        11520,
+        5872
+      ],
+      "id": "b867d313-7c6c-4cda-b0fa-d31f26ad0127",
+      "name": "📅 Calendar: Eliminar Cita (Cancelar)",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase() === 'valladolid' ? 'drjesusvalladolid@gmail.com' : 'drjesusrodriguezgonzalez@gmail.com' }}",
+          "mode": "id"
+        },
+        "eventId": "={{ $json.cita_previa_id }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        11968,
+        6160
+      ],
+      "id": "d6cf1ae7-1149-4119-af54-b62158ad0f77",
+      "name": "📅 Calendar: Eliminar Cita Previa (Re-agenda)",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11296,
+        7424
+      ],
+      "id": "168e2b0d-5db1-4825-8e00-1b99abf262b0",
+      "name": "Notificar Jesus",
+      "webhookId": "92248190-1759-46d9-a299-62a61df565b4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11296,
+        6848
+      ],
+      "id": "35eae0ef-e33f-4eeb-ad63-366e494003e8",
+      "name": "Bienvenida",
+      "webhookId": "f6480292-cf93-4803-9e40-08d26962eb1d",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11072,
+        7856
+      ],
+      "id": "47e38b57-179e-4dfb-92e4-0ad34642aefd",
+      "name": "Seguimiento 48h",
+      "webhookId": "a5836d49-8a0e-4d0d-9f27-9cb365c2d8a8",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        11744,
+        7664
+      ],
+      "id": "a6ed1de5-d2b3-412d-9ee9-79639c6fd56c",
+      "name": "Ultimo mensaje seguimiento",
+      "webhookId": "8c3429ba-baae-48e5-8377-e78d4c882dc4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        12864,
+        6336
+      ],
+      "id": "ee2c8538-e2bf-4f4f-b5b9-16c4467bfedc",
+      "name": "📧 Email: Confirmar Cita al Paciente1",
+      "webhookId": "feffccd5-1626-46c3-b240-b8da31895293",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        13760,
+        5952
+      ],
+      "id": "2df7a894-34bb-4a4e-86bd-3e43eb704035",
+      "name": "📧 Email: Recordatorio 24h2",
+      "webhookId": "dcb54d37-3469-47e4-9b77-321c9415ee60",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        13984,
+        6432
+      ],
+      "id": "5de8494d-664b-48f8-8031-1686aa0da00c",
+      "name": "📧 Email: Pedir Reseña1",
+      "webhookId": "8619e107-171d-41d9-8c60-75f9dc755864",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {},
+      "id": "15c35320-96b6-476e-9dce-41d44a5467b6",
+      "name": "⏰ Esperar 48h (Seguimiento Lead Frío)1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        10048,
+        7760
+      ],
+      "webhookId": "ce5018d3-4df8-4e54-bb8a-c8ca84f52e87"
+    },
+    {
+      "parameters": {
+        "unit": "days"
+      },
+      "id": "1fb5d208-2783-44a4-bb22-3fcb9f2f1643",
+      "name": "⏰ Esperar 5 días (Seguimiento Final)1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        10784,
+        7664
+      ],
+      "webhookId": "e6b3d012-7b04-421c-9df3-a35421d7bdbb"
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $('⚙️ Calcular Hueco Libre').first().json.fecha_cita_recordatorio }}"
+      },
+      "id": "56b6d932-33ae-4994-b1ad-e0bd23b8ec2b",
+      "name": "⏰ Esperar hasta 24h antes de la cita2",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        12864,
+        6144
+      ],
+      "webhookId": "1ea6ef80-3788-49ac-a42c-81dde8623e95"
+    },
+    {
+      "parameters": {
+        "resume": "specificTime",
+        "dateTime": "={{ $('⚙️ Calcular Hueco Libre').first().json.fecha_cita_resena }}"
+      },
+      "id": "c926b480-3cc3-47bc-9100-621a924d7c28",
+      "name": "⏰ Esperar hasta 2h después de la cita1",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        13536,
+        6336
+      ],
+      "webhookId": "3430b691-8f01-4b34-a6a9-4792113d06a4"
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "={{ '[DÍAS DISPONIBLES EN EL CALENDARIO DEL DOCTOR: ' + $json.diasDisponibles + ']\\n\\nMensaje del paciente: ' + $json.body.Body }}",
+        "options": {
+          "systemMessage": "=## SEDE DEL PACIENTE (usa SIEMPRE estos datos, nunca los de otra sede)\n- Sede: {{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase()==='valladolid' ? 'Valladolid' : 'Madrid' }}\n- Dirección: {{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase()==='valladolid' ? 'Calle Santiago 12, Valladolid (junto a la Plaza Mayor)' : 'Policlínica Viriato, Calle Viriato 27, Madrid (Chamberí)' }}\n- Horario de citas: {{ ($('📊 Sheets: Buscar Paciente').item.json.Sede || 'madrid').toLowerCase()==='valladolid' ? 'Lunes a Viernes de 09:30 a 19:30' : 'Lunes a Viernes de 10:00 a 20:00' }}\n\nEres el asistente virtual del Dr. Jesús Rodríguez González, ortodoncista especialista en Madrid con más de 10 años de experiencia y más de 30 opiniones de 5 estrellas en Doctoralia.\n\nSOBRE EL DOCTOR:\n- Nombre completo: Dr. Jesús Rodríguez González\n- Especialidad: Ortodoncia\n- Número de colegiado: 28012566\n- Formación: Universidad Europea de Madrid + Máster en Ortodoncia (UDIMA)\n- Más de 10 años de experiencia clínica\n- Más de 30 reseñas de 5 estrellas en Doctoralia\n- Teléfono directo: 653 11 26 93\n- Email: drjesusrodriguezortodoncia@gmail.com\n\nSOBRE LA CONSULTA:\n- Clínica: Policlínica Viriato, Calle Viriato 27, Madrid\n- Metro más cercano: Iglesia o Canal\n- Primera visita: completamente gratuita y sin compromiso\n- Duración de visita: 15 minutos\n- Horario en días disponibles: de 10:00 a 20:00h\n- El Dr. Jesús abre consulta ÚNICAMENTE en días específicos del mes. Al inicio de cada mensaje recibirás entre corchetes los días disponibles según el calendario real.\n\nSERVICIOS:\n- Ortodoncia tradicional (brackets)\n- Ortodoncia invisible (Invisalign y similares)\n- Implantes dentales\n- Estética dental\n- Periodoncia\n- Odontopediatría\n\nPRECIOS ORIENTATIVOS (solo si el paciente pregunta directamente por precio):\n- Ortodoncia completa: desde 1.000€\n- Ortodoncia invisible: desde 2.000€\n- Para cualquier otro tratamiento: \"El Dr. Jesús te dará un presupuesto personalizado en tu primera visita gratuita\"\n\nFLUJO EXACTO — SIGUE ESTE ORDEN ESTRICTAMENTE:\nPASO 1: Saluda e informa los días disponibles del corchete\nPASO 2: Pregunta qué día le viene mejor\nPASO 3: Cuando confirme el día → pregunta \"¿Prefieres por la mañana (10:00-14:00) o por la tarde (14:00-20:00)?\" NO reserves todavía\nPASO 4: Cuando tengas día + franja (o día + hora concreta) → confirma brevemente y añade el marcador AL FINAL. Ahora sí reservas\nPASO 5 especial: Si el paciente da día Y hora concreta a la vez (ej: \"el jueves a las 18:00\") → reserva directamente sin preguntar franja\n- Si quiere CANCELAR → |||CANCELAR|||\n- Si quiere CAMBIAR una cita ya existente → REAGENDAR con los nuevos datos, NUNCA RESERVAR\n- Si confirma un recordatorio → |||CONFIRMAR|||\n- Si rechaza un recordatorio → |||CANCELAR|||\n\nMARCADORES (añade SIEMPRE al final del mensaje, NUNCA los muestres al paciente):\n- Día confirmado + tarde SIN hora concreta: |||RESERVAR:tarde:YYYY-MM-DD|||\n- Día confirmado + mañana SIN hora concreta: |||RESERVAR:manana:YYYY-MM-DD|||\n- Día confirmado + hora concreta de tarde (14:00-20:00): |||RESERVAR:tarde:YYYY-MM-DD:HH:MM|||\n- Día confirmado + hora concreta de mañana (10:00-14:00): |||RESERVAR:manana:YYYY-MM-DD:HH:MM|||\n- Sin día pero con franja tarde: |||RESERVAR:tarde|||\n- Sin día pero con franja mañana: |||RESERVAR:manana|||\n- Cancelar: |||CANCELAR|||\n- Confirmar asistencia: |||CONFIRMAR|||\n- Reagendar tarde con hora concreta: |||REAGENDAR:tarde:YYYY-MM-DD:HH:MM|||\n- Reagendar tarde sin hora concreta: |||REAGENDAR:tarde:YYYY-MM-DD|||\n- Reagendar mañana con hora concreta: |||REAGENDAR:manana:YYYY-MM-DD:HH:MM|||\n- Reagendar mañana sin hora concreta: |||REAGENDAR:manana:YYYY-MM-DD|||\n- CRÍTICO: Si el paciente menciona una hora concreta al reagendar, SIEMPRE incluye HH:MM en el marcador\n\nREGLAS:\n1. Si preguntan por precios de ortodoncia o invisible, puedes dar los precios orientativos indicados arriba\n2. Para cualquier otro precio o presupuesto: \"El Dr. Jesús te lo explicará todo en tu primera visita gratuita\"\n3. Si el paciente pide una hora concreta (ej: \"las 18:00\"): acéptala y reserva con esa hora en el marcador\n4. Máximo 3 frases por mensaje. Sé conciso\n5. Habla de forma cercana y natural. Máximo 1 emoji por mensaje\n6. Si no quiere cita, cierra con amabilidad sin insistir\n7. NUNCA emitas un marcador de RESERVAR si el paciente solo ha confirmado el día sin decir mañana o tarde. Primero pregunta la franja\n8. Si el paciente ya tiene cita y quiere cambiar → usa siempre REAGENDAR, NUNCA RESERVAR",
+          "maxIterations": 3
+        }
+      },
+      "id": "cb054c14-2a3d-4ca4-b85d-66f50df1e924",
+      "name": "🧠 AI Agent — Asistente Dr. Jesús1",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        9824,
+        6160
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ 'Actua como el asistente del Dr. Jesus Rodriguez Gonzalez. Un nuevo paciente llamado ' + $json.nombre + ' acaba de solicitar informacion sobre ' + $json.tratamiento + '.\\n\\nDias disponibles en el calendario del doctor: ' + $json.diasDisponibles + '\\n\\nRedacta un unico mensaje de WhatsApp muy breve y amigable (maximo 3 frases) que:\\n1) Salude al paciente por su nombre\\n2) Le informe de los dias disponibles\\n3) Le pregunte cual le viene mejor o si prefiere manana o tarde\\n\\nNO confirmes ninguna cita, NO menciones horas concretas. Solo presenta los dias y pregunta cual prefiere.' }}",
+        "options": {
+          "systemMessage": "=Eres el asistente virtual del Dr. Jesús Rodríguez González, ortodoncista. Atiendes la sede de {{ $('⚙️ Normalizar Datos Lead1').item.json.sede_nombre }}.\nDirección: {{ $('⚙️ Normalizar Datos Lead1').item.json.sede_direccion }}. Horario: {{ $('⚙️ Normalizar Datos Lead1').item.json.sede_horario }}. Primera visita gratuita. Da SIEMPRE los datos de la sede de {{ $('⚙️ Normalizar Datos Lead1').item.json.sede_nombre }}, nunca los de otra sede.",
+          "maxIterations": 3
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        10720,
+        7024
+      ],
+      "id": "61db573d-3d1a-42ad-9dff-5cdbb06fe89b",
+      "name": "🧠 AI Agent — Asistente Dr. Jesús2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b6734932-028a-4c78-bdac-febe0c4c8fb4",
+              "leftValue": "={{ $json.telefono }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        9600,
+        7472
+      ],
+      "id": "c5ca0030-4558-4a04-8b49-e2f0399b013f",
+      "name": "ES DUPLICADO?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5ecd0d2b-c2fc-4c0b-b19c-6ad96b09c74c",
+              "leftValue": "={{ ['reservar', 'reagendar', 'reservar_adicional'].includes($json.accion) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        10400,
+        6432
+      ],
+      "id": "f714fc5c-10c9-49b2-8df4-965da2ceef0b",
+      "name": "❓ ¿Intención de Reserva?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "69e0463f-0806-49d2-b5cd-4a3629a1cd91",
+              "leftValue": "={{ $json.hayHueco }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        11520,
+        6432
+      ],
+      "id": "c8afba64-a2d7-4e78-a70b-ce4c5f63d1c4",
+      "name": "❓ ¿Hay Hueco Disponible?1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "996d9ecd-0f67-41d0-9e4d-4fa19f08ad08",
+              "leftValue": "={{ $json.cita_agendada }}",
+              "rightValue": "NO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        10496,
+        7760
+      ],
+      "id": "6472f8a0-c98c-4b95-b706-133d4f054191",
+      "name": "❓ ¿Necesita seguimiento 48h?1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1bab2ed9-ea07-4a20-8d49-178fa93d78c0",
+              "leftValue": "={{ $json.cita_agendada }}",
+              "rightValue": "NO",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        11296,
+        7664
+      ],
+      "id": "fea5fa1b-431c-4c1f-a5b9-f89a2c553a3c",
+      "name": "❓ ¿Enviar seguimiento final?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f1a2b3c4-d5e6-7890-abcd-ef1234567801",
+              "leftValue": "={{ $json.accion }}",
+              "rightValue": "cancelar",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        10400,
+        5952
+      ],
+      "id": "9128fb4a-ba48-44dc-a5b6-399e64d71060",
+      "name": "❓ ¿Intención de Cancelar?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d5e6f7a8-b9c0-1234-efab-345678901205",
+              "leftValue": "={{ $json.tiene_evento }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        11296,
+        5952
+      ],
+      "id": "30218014-3b0e-4d2c-9334-4be501c52f73",
+      "name": "❓ ¿Hay Evento a Eliminar?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "c9d0e1f2-a3b4-5678-defa-890123456710",
+              "leftValue": "={{ $json.cita_cancelada !== 'SÍ' && $json.hora_cita === $('📊 Sheets: Guardar Fecha de Cita1').first().json.hora_cita }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        13312,
+        6144
+      ],
+      "id": "560f1961-c5de-4b3e-9cc5-0f7f11d53e81",
+      "name": "❓ ¿Cita Sigue Activa?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "d0e1f2a3-b4c5-6789-efab-901234567811",
+              "leftValue": "={{ $json.cita_previa_id !== null && $json.cita_previa_id !== '' && $json.accion === 'reagendar' }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        11744,
+        6240
+      ],
+      "id": "b3935dc0-6b10-4853-b6f2-25732bca207a",
+      "name": "❓ ¿Tiene Cita Previa? (Re-agenda)"
+    },
+    {
+      "parameters": {
+        "jsCode": "const email = $('⚙️ Normalizar Datos Lead1').item.json.email;\nconst nombre = $('⚙️ Normalizar Datos Lead1').item.json.nombre;\nconst subject = '✅ Solicitud recibida — Clínica Dr. Jesús Rodríguez';\nconst bodyText = `Hola ${nombre},\\n\\nHemos recibido correctamente tu solicitud para una consulta con el Dr. Jesús Rodríguez González, ortodoncista especialista en Madrid.\\n\\nEn breve te escribiremos por WhatsApp al número que nos has facilitado para confirmar el día y la hora de tu primera visita.\\n\\nRecuerda que la primera visita es completamente GRATUITA y sin compromiso 😊\\n\\n📍 Policlínica Viriato — Calle Viriato 27, Madrid (Metro Iglesia o Canal)\\n📞 653 11 26 93\\n\\nHasta pronto,\\nEl equipo del Dr. Jesús Rodríguez González`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject, 'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(bodyText, 'utf8').toString('base64');\nconst mime = ['To: ' + email,'Subject: ' + subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime, 'utf8').toString('base64').replace(/\\+/g, '-').replace(/\\//g, '_').replace(/=+$/, '');\nreturn [{ json: { raw } }];"
+      },
+      "id": "a674322b-f399-4733-a16d-ea771bd27af0",
+      "name": "⚙️ Preparar Email Bienvenida",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11072,
+        6848
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('⚙️ Normalizar Datos Lead1').item.json;\nconst subject = '🦷 Nuevo Lead — ' + d.nombre;\nconst body = ['Nuevo lead recibido:','','Nombre: ' + d.nombre,'Teléfono: ' + d.telefono,'Email: ' + d.email,'Tratamiento: ' + d.tratamiento,'Fuente: ' + d.fuente,'LeadId: ' + d.leadId].join('\\n');\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: naimprincipal@gmail.com','Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "97ea8362-77ff-4398-a561-651220eb51fc",
+      "name": "⚙️ Preparar Email Notificar Jesus",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11072,
+        7424
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst subject = '⏳ Tu plaza gratuita sigue disponible — Dr. Jesús Rodríguez';\nconst body = `Hola ${d.nombre},\\n\\nHace 48 horas solicitaste tu primera visita gratuita con el Dr. Jesús, pero aún no hemos fijado la fecha.\\n\\nLos huecos del doctor son muy limitados y se llenan rápido. Para asegurar tu plaza, responde a este correo o escríbenos por WhatsApp indicando qué franja te viene mejor:\\n\\n- Mañanas (10:00 - 14:00)\\n- Tardes (14:00 - 17:00)\\n- Noches (17:00 - 20:00)\\n\\nSi ya no estás interesado/a, avísanos con un simple \"No\" para ceder tu hueco a otro paciente.\\n\\nUn saludo,\\nEl equipo del Dr. Jesús Rodríguez`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: '+d.email,'Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "1c0c57a8-fbe2-4b67-9ed1-04beb800a7d8",
+      "name": "⚙️ Preparar Email Seguimiento 48h",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        10784,
+        7856
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst subject = 'Un último mensaje — Dr. Jesús Rodríguez González';\nconst body = `Hola ${d.nombre},\\n\\nEste es nuestro último contacto. Al no recibir respuesta, hemos liberado tu plaza para la visita gratuita con el Dr. Jesús y se la hemos cedido a otro paciente.\\n\\nSi en el futuro decides retomar tu caso, escríbenos y buscaremos un nuevo hueco según la disponibilidad de la agenda.\\n\\nUn saludo,\\nEl equipo del Dr. Jesús Rodríguez`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: '+d.email,'Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "2951d435-b617-4c2f-b818-a5e2c8ccf3f4",
+      "name": "⚙️ Preparar Email Último Seguimiento",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11520,
+        7664
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('⚙️ Calcular Hueco Libre').first().json;\nconst subject = '📅 Cita confirmada — ' + d.fecha_cita + ' a las ' + d.hora_cita;\nconst body = `Hola ${d.nombre},\\n\\nTu primera visita gratuita con el Dr. Jesús está confirmada.\\n\\n📅 Fecha: ${d.fecha_cita}\\n⏰ Hora: ${d.hora_cita}\\n📍 Ubicación: Policlínica Viriato, Calle Viriato 27, Madrid\\n\\nSi surge algún imprevisto, respóndenos a este correo o escríbenos por WhatsApp.\\n\\n¡Hasta pronto!`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: '+d.email,'Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "7d882be9-8e68-454c-9200-08cbc2011355",
+      "name": "⚙️ Preparar Email Confirmar Cita",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        12640,
+        6336
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst subject = '⏰ Recordatorio: Tu cita mañana a las ' + d.hora_cita + ' — Dr. Jesús Rodríguez';\nconst body = `Hola ${d.nombre},\\n\\nTe recordamos que mañana es tu visita gratuita con el Dr. Jesús.\\n\\n📅 Fecha: ${d.fecha_cita}\\n⏰ Hora: ${d.hora_cita}\\n📍 Ubicación: Policlínica Viriato, Calle Viriato 27, Madrid\\n\\nPor favor, confirma tu asistencia respondiendo a este correo con un \"SÍ\" o escríbenos por WhatsApp.\\n\\n¡Te esperamos!`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: '+d.email,'Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "355d4d02-d59d-4f04-95ab-6fb72d074096",
+      "name": "⚙️ Preparar Email Recordatorio 24h",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        13536,
+        5952
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $json;\nconst subject = '¿Cómo fue tu visita? — Dr. Jesús Rodríguez González';\nconst body = `Hola ${d.nombre},\\n\\nEsperamos que tu visita de hoy en la clínica haya ido genial y que hayamos resuelto todas tus dudas.\\n\\nSi estás contento/a con la atención recibida, nos ayudaría muchísimo que nos dejaras una breve reseña. Solo te tomará 1 minuto:\\n\\n👉 https://www.doctoralia.es/anade-opinion/jesus-rodriguez-gonzalez-2#/opinion\\n\\nMuchas gracias por confiar en nosotros.\\n\\nUn saludo,\\nDr. Jesús Rodríguez`;\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: '+d.email,'Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "e0959e3c-ac0c-4938-b43b-42b0c028340b",
+      "name": "⚙️ Preparar Email Pedir Reseña",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        13760,
+        6432
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const inp = $input.first().json;\nlet respuesta = '';\n\nif (inp.body?.messages?.[0]?.body) respuesta = inp.body.messages[0].body;\nelse if (inp.data?.messages?.[0]?.body) respuesta = inp.data.messages[0].body;\nelse if (typeof inp.body === 'string') respuesta = inp.body;\nelse if (typeof inp.text === 'string') respuesta = inp.text;\nelse if (typeof inp.message === 'string') respuesta = inp.message;\nelse if (typeof inp.Body === 'string') respuesta = inp.Body;\nelse if (typeof inp.response === 'string') respuesta = inp.response;\nelse if (typeof inp.userResponse === 'string') respuesta = inp.userResponse;\nelse if (inp.data) respuesta = typeof inp.data === 'string' ? inp.data : JSON.stringify(inp.data);\nelse respuesta = JSON.stringify(inp).substring(0, 200);\n\nconst txt = String(respuesta).trim().toLowerCase();\n\nlet accion = 'ignorar';\nlet franja = '';\nlet hora_inicio_franja = '10:00';\nlet hora_fin_franja = '20:00';\nlet hora_solicitada = '';\n\nconst negacion = /\\b(no|nope|paso|no me interesa|no gracias|cancelar|borrar|elimina|d[eé]jalo|no quiero|ya no)\\b/i.test(txt);\nconst afirmacion = /\\b(s[ií]|sí|si|claro|vale|ok|okay|perfecto|acepto|de acuerdo|me viene bien|agenda|reserva|quiero)\\b/i.test(txt);\nconst esManana = /\\bma[ñn]ana\\b/i.test(txt);\nconst esTarde = /\\btarde\\b/i.test(txt);\nconst esNoche = /\\bnoche\\b/i.test(txt);\n\nconst horaMatch = txt.match(/(?:a las?|las?)?\\s*(\\d{1,2})(?:[h:.](\\d{2}))?/i);\nif (horaMatch) {\n  const h = parseInt(horaMatch[1], 10);\n  const m = parseInt(horaMatch[2] || '0', 10);\n  if (h >= 8 && h <= 21 && m >= 0 && m <= 59) {\n    hora_solicitada = String(h).padStart(2, '0') + ':' + String(m).padStart(2, '0');\n  }\n}\n\nif (negacion && !afirmacion && !esManana && !esTarde && !esNoche && !hora_solicitada) {\n  accion = 'rechazar';\n} else if (esManana || esTarde || esNoche || hora_solicitada || afirmacion) {\n  accion = 'reservar';\n  if (esManana) { franja = 'manana'; hora_inicio_franja = '10:00'; hora_fin_franja = '14:00'; }\n  else if (esTarde) { franja = 'tarde'; hora_inicio_franja = '14:00'; hora_fin_franja = '17:00'; }\n  else if (esNoche) { franja = 'noche'; hora_inicio_franja = '17:00'; hora_fin_franja = '20:00'; }\n  else if (hora_solicitada) {\n    const h = parseInt(hora_solicitada.split(':')[0], 10);\n    if (h >= 17) { franja = 'noche'; hora_inicio_franja = '17:00'; hora_fin_franja = '20:00'; }\n    else if (h >= 14) { franja = 'tarde'; hora_inicio_franja = '14:00'; hora_fin_franja = '17:00'; }\n    else { franja = 'manana'; hora_inicio_franja = '10:00'; hora_fin_franja = '14:00'; }\n  }\n}\n\nconst paciente = $('⚙️ Normalizar Datos Lead1').item.json;\nreturn [{\n  json: {\n    accion, franja, hora_inicio_franja, hora_fin_franja, hora_solicitada,\n    respuesta_original: respuesta,\n    telefono: paciente.telefono,\n    nombre: paciente.nombre,\n    email: paciente.email,\n    leadId: paciente.leadId,\n    tratamiento: paciente.tratamiento\n  }\n}];"
+      },
+      "id": "n48h-01-procesar",
+      "name": "⚙️ Procesar Respuesta 48h",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11008,
+        7472
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "48h-cond-acepta",
+              "leftValue": "={{ $json.accion }}",
+              "rightValue": "reservar",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n48h-02-acepta",
+      "name": "❓ ¿Acepta agendar (48h)?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        11232,
+        7472
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede_calendarId }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "n48h-03-cal-disp",
+      "name": "📅 Calendar: Disponibilidad 48h",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        11456,
+        7360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede_calendarId }}",
+          "mode": "id"
+        },
+        "returnAll": true,
+        "options": {}
+      },
+      "id": "n48h-04-cal-citas",
+      "name": "📅 Calendar: Citas 48h",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        11680,
+        7360
+      ],
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const datos = $('⚙️ Procesar Respuesta 48h').first().json;\nconst franja = datos.franja;\nconst horaIni = datos.hora_inicio_franja;\nconst horaFin = datos.hora_fin_franja;\nconst hora_solicitada = datos.hora_solicitada;\n\nlet eventosDisponibles = [];\ntry { eventosDisponibles = $('📅 Calendar: Disponibilidad 48h').all().map(i => i.json); } catch(e) {}\nlet citasExistentes = [];\ntry { citasExistentes = $('📅 Calendar: Citas 48h').all().map(i => i.json); } catch(e) {}\n\nconst hoy = new Date(); hoy.setHours(0,0,0,0);\nconst diasDisponibles = eventosDisponibles\n  .filter(ev => ev.summary && ev.summary.toLowerCase().includes('disponible'))\n  .map(ev => {\n    const start = new Date(ev.start?.dateTime || ev.start?.date);\n    const end = new Date(ev.end?.dateTime || ev.end?.date);\n    return {\n      fecha: start.toISOString().split('T')[0],\n      hora_inicio: String(start.getHours()).padStart(2,'0') + ':' + String(start.getMinutes()).padStart(2,'0'),\n      hora_fin: String(end.getHours()).padStart(2,'0') + ':' + String(end.getMinutes()).padStart(2,'0')\n    };\n  })\n  .filter(d => new Date(d.fecha) >= hoy)\n  .sort((a,b) => new Date(a.fecha) - new Date(b.fecha));\n\nif (diasDisponibles.length === 0) return [{ json: { hayHueco: false, motivo: 'sin_dias_abiertos', ...datos } }];\n\nconst bloqueos = citasExistentes\n  .filter(ev => !ev.summary || !ev.summary.toLowerCase().includes('disponible'))\n  .map(ev => ({\n    start: new Date(ev.start?.dateTime || ev.start?.date).getTime(),\n    end: new Date(ev.end?.dateTime || ev.end?.date).getTime()\n  }));\n\nfunction intentarSlot(fecha, slot) {\n  const [h,m] = slot.split(':').map(Number);\n  const slotMin = h*60 + m;\n  const finMin = slotMin + 15;\n  if (finMin > 24*60) return null;\n  const hhFin = String(Math.floor(finMin/60)).padStart(2,'0');\n  const mmFin = String(finMin%60).padStart(2,'0');\n  const inicio = fecha + 'T' + slot + ':00+02:00';\n  const fin = fecha + 'T' + hhFin + ':' + mmFin + ':00+02:00';\n  const sS = new Date(inicio).getTime();\n  const sE = sS + 15*60*1000;\n  if (bloqueos.some(b => b.start < sE && b.end > sS)) return null;\n  return { inicioLocal: inicio, finLocal: fin, slotStartTime: sS };\n}\n\nfor (const dia of diasDisponibles) {\n  const efIni = horaIni > dia.hora_inicio ? horaIni : dia.hora_inicio;\n  const efFin = horaFin < dia.hora_fin ? horaFin : dia.hora_fin;\n  const [iniH,iniM] = efIni.split(':').map(Number);\n  const [finH,finM] = efFin.split(':').map(Number);\n  const efIniMin = iniH*60 + iniM;\n  const efFinMin = finH*60 + finM;\n  if (hora_solicitada) {\n    const [sH,sM] = hora_solicitada.split(':').map(Number);\n    const sMin = sH*60 + sM;\n    if (sMin >= efIniMin && sMin + 15 <= efFinMin) {\n      const r = intentarSlot(dia.fecha, hora_solicitada);\n      if (r) {\n        const ft = new Date(r.inicioLocal).toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});\n        return [{ json: { hayHueco: true, ...datos, fecha_cita: ft, hora_cita: hora_solicitada, fecha_inicio_calendar: r.inicioLocal, fecha_fin_calendar: r.finLocal, fecha_cita_recordatorio: new Date(r.slotStartTime - 86400000).toISOString(), fecha_cita_resena: new Date(r.slotStartTime + 7200000).toISOString(), timestamp_confirmacion: new Date().toISOString() } }];\n      }\n    }\n  }\n  let sm = efIniMin;\n  while (sm + 15 <= efFinMin) {\n    const slot = String(Math.floor(sm/60)).padStart(2,'0') + ':' + String(sm%60).padStart(2,'0');\n    const r = intentarSlot(dia.fecha, slot);\n    if (r) {\n      const ft = new Date(r.inicioLocal).toLocaleDateString('es-ES',{weekday:'long',year:'numeric',month:'long',day:'numeric'});\n      return [{ json: { hayHueco: true, ...datos, fecha_cita: ft, hora_cita: slot, fecha_inicio_calendar: r.inicioLocal, fecha_fin_calendar: r.finLocal, fecha_cita_recordatorio: new Date(r.slotStartTime - 86400000).toISOString(), fecha_cita_resena: new Date(r.slotStartTime + 7200000).toISOString(), timestamp_confirmacion: new Date().toISOString() } }];\n    }\n    sm += 15;\n  }\n}\nreturn [{ json: { hayHueco: false, motivo: 'sin_hueco_en_franja_' + (franja || 'cualquiera'), ...datos } }];"
+      },
+      "id": "n48h-05-calc",
+      "name": "⚙️ Calcular Hueco 48h",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        11904,
+        7360
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "48h-cond-hueco",
+              "leftValue": "={{ $json.hayHueco }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "n48h-06-hayhueco",
+      "name": "❓ ¿Hay Hueco 48h?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        12128,
+        7360
+      ]
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "={{ $('⚙️ Normalizar Datos Lead1').item.json.sede_calendarId }}",
+          "mode": "id"
+        },
+        "start": "={{ $json.fecha_inicio_calendar }}",
+        "end": "={{ $json.fecha_fin_calendar }}",
+        "additionalFields": {
+          "color": "10",
+          "location": "Policlínica Viriato, Calle Viriato 27, Madrid",
+          "summary": "=Cita - {{ $json.nombre }} - {{ $json.telefono }}"
+        }
+      },
+      "id": "n48h-07-crear",
+      "name": "📅 Crear Cita 48h",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1,
+      "position": [
+        12352,
+        7264
+      ],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "m2PdCpCnPLjobn0a",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $('⚙️ Calcular Hueco 48h').first().json.leadId }}",
+            "estado": "cita_agendada",
+            "cita_agendada": "SÍ",
+            "fecha_cita": "={{ $('⚙️ Calcular Hueco 48h').first().json.fecha_cita }}",
+            "hora_cita": "={{ $('⚙️ Calcular Hueco 48h').first().json.hora_cita }}",
+            "notas": "=Agendada automáticamente desde seguimiento 48h ({{ $('⚙️ Calcular Hueco 48h').first().json.timestamp_confirmacion }})"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cita_agendada",
+              "displayName": "cita_agendada",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "fecha_cita",
+              "displayName": "fecha_cita",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "hora_cita",
+              "displayName": "hora_cita",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notas",
+              "displayName": "notas",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "n48h-08-sheets",
+      "name": "📊 Sheets: Guardar Cita 48h",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        12576,
+        7264
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('⚙️ Calcular Hueco 48h').first().json.telefono }}",
+        "textBody": "=¡Genial {{ $('⚙️ Calcular Hueco 48h').first().json.nombre }}! 🦷 Tu cita queda confirmada para el {{ $('⚙️ Calcular Hueco 48h').first().json.fecha_cita }} a las {{ $('⚙️ Calcular Hueco 48h').first().json.hora_cita }} en Policlínica Viriato (Calle Viriato 27, Madrid). ¡Te esperamos!",
+        "additionalFields": {}
+      },
+      "id": "n48h-09-confirm",
+      "name": "💬 Confirmar Cita 48h",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        12800,
+        7264
+      ],
+      "webhookId": "n48h-conf-wh-001",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $('⚙️ Procesar Respuesta 48h').first().json.telefono }}",
+        "textBody": "=Vaya {{ $('⚙️ Procesar Respuesta 48h').first().json.nombre }}, justo en esa franja no nos queda hueco. Te llamará el Dr. Jesús personalmente para buscar un momento que te encaje. 🙏",
+        "additionalFields": {}
+      },
+      "id": "n48h-10-sinhueco",
+      "name": "💬 Sin Hueco 48h",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        12352,
+        7456
+      ],
+      "webhookId": "n48h-sh-wh-001",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $('⚙️ Procesar Respuesta 48h').first().json;\nconst franja = d.franja || 'solicitada';\nconst subject = '⚠️ Sin hueco en seguimiento 48h — ' + (d.nombre || 'Paciente');\nconst body = ['Un paciente respondió al seguimiento de 48h pero no hay hueco en la franja solicitada:','','Nombre: ' + (d.nombre || ''),'Teléfono: ' + (d.telefono || ''),'Email: ' + (d.email || ''),'LeadId: ' + (d.leadId || ''),'Franja: ' + franja,'','Acción recomendada: llamar al paciente y ofrecer alternativa.'].join('\\n');\nconst subjectB64 = '=?UTF-8?B?' + Buffer.from(subject,'utf8').toString('base64') + '?=';\nconst bodyB64 = Buffer.from(body,'utf8').toString('base64');\nconst mime = ['To: naimprincipal@gmail.com','Subject: '+subjectB64,'MIME-Version: 1.0','Content-Type: text/plain; charset=UTF-8','Content-Transfer-Encoding: base64','',bodyB64].join('\\r\\n');\nconst raw = Buffer.from(mime,'utf8').toString('base64').replace(/\\+/g,'-').replace(/\\//g,'_').replace(/=+$/,'');\nreturn [{json:{raw}}];"
+      },
+      "id": "n48h-11-avisojesus",
+      "name": "⚙️ Preparar Email Notif Sin Hueco 48h",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        12352,
+        7600
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gmailOAuth2",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        12576,
+        7600
+      ],
+      "id": "n48h-aj-wh-001",
+      "name": "Notificar Jesus Sin Hueco 48h",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "h4DRj8Ra7hplCMsf",
+          "name": "Gmail account 2"
+        }
+      },
+      "continueOnFail": true
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "1181223521733601",
+        "recipientPhoneNumber": "={{ $json.telefono }}",
+        "textBody": "=Entendido {{ $json.nombre }}, sin problema 😊 Si en el futuro cambias de opinión, escríbenos cuando quieras. Un saludo del equipo del Dr. Jesús.",
+        "additionalFields": {}
+      },
+      "id": "n48h-12-rechazo",
+      "name": "💬 Despedida (Rechazo 48h)",
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        11456,
+        7600
+      ],
+      "webhookId": "n48h-rch-wh-001",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "I60rUi5d4yx0AtdJ",
+          "name": "WhatsApp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "serviceAccount",
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Pacientes",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1cKrdiXXMqvzzPvm4Qf_WnPzumqBVgrrWer_npduTi7s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "leadId": "={{ $json.leadId }}",
+            "estado": "no_interesado",
+            "notas": "=Rechazó cita en seguimiento 48h. Respuesta: {{ $json.respuesta_original }}"
+          },
+          "matchingColumns": [
+            "leadId"
+          ],
+          "schema": [
+            {
+              "id": "leadId",
+              "displayName": "leadId",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "estado",
+              "displayName": "estado",
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "notas",
+              "displayName": "notas",
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "n48h-13-nosheets",
+      "name": "📊 Sheets: Marcar No Interesado",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [
+        11456,
+        7728
+      ],
+      "credentials": {
+        "googleApi": {
+          "id": "RrSl1T3T5uKSPxis",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "💬 WhatsApp: Seguimiento 48h1": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Procesar Respuesta 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Procesar Respuesta 48h": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Acepta agendar (48h)?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Acepta agendar (48h)?": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Disponibilidad 48h",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "💬 Despedida (Rechazo 48h)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📊 Sheets: Marcar No Interesado",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Disponibilidad 48h": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Citas 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Citas 48h": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Calcular Hueco 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Calcular Hueco 48h": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Hay Hueco 48h?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Hay Hueco 48h?": {
+      "main": [
+        [
+          {
+            "node": "📅 Crear Cita 48h",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "💬 Sin Hueco 48h",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Notif Sin Hueco 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Notif Sin Hueco 48h": {
+      "main": [
+        [
+          {
+            "node": "Notificar Jesus Sin Hueco 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Crear Cita 48h": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Guardar Cita 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Guardar Cita 48h": {
+      "main": [
+        [
+          {
+            "node": "💬 Confirmar Cita 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "💬 WhatsApp: Confirmar Cita al Paciente1": {
+      "main": [
+        [
+          {
+            "node": "⏰ Esperar hasta 24h antes de la cita2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Responder WhatsApp": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Pre-IA: Disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 Memoria — Window Buffer": {
+      "ai_memory": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús2",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚡ OpenAI GPT-4o": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 Memoria — Window Buffer1": {
+      "ai_memory": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús1",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚡ OpenAI GPT-4o1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Responder Formulario Web": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Normalizar Datos Lead1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Responder Meta": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Normalizar Datos Lead1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Responder Cancelación": {
+      "main": [
+        [
+          {
+            "node": "🚫 CANCELACIÓN: Procesar1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "✅ Responder Confirmación": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Marcar Cita Confirmada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 ENTRADA 1: Formulario Web1": {
+      "main": [
+        [
+          {
+            "node": "✅ Responder Formulario Web",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 ENTRADA 2: Meta Lead Ads1": {
+      "main": [
+        [
+          {
+            "node": "✅ Responder Meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 ENTRADA 5: Respuesta WhatsApp Paciente1": {
+      "main": [
+        [
+          {
+            "node": "✅ Responder WhatsApp",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 ENTRADA 3: Cancelación de Cita1": {
+      "main": [
+        [
+          {
+            "node": "✅ Responder Cancelación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📥 ENTRADA 4: Confirmación Asistencia1": {
+      "main": [
+        [
+          {
+            "node": "✅ Responder Confirmación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Normalizar Datos Lead1": {
+      "main": [
+        [
+          {
+            "node": "🔍 ¿Lead Duplicado?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🚫 CANCELACIÓN: Procesar1": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Marcar Cita Cancelada1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Analizar Respuesta IA": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Respuesta del Agente IA",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "❓ ¿Intención de Reserva?",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "❓ ¿Intención de Cancelar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Calcular Hueco Libre": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Hay Hueco Disponible?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Formatear Días para IA": {
+      "main": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Filtrar y Preparar Cancelación": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Hay Evento a Eliminar?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 ¿Lead Duplicado?1": {
+      "main": [
+        [
+          {
+            "node": "ES DUPLICADO?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Guardar Lead en Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "⏰ Esperar 48h (Seguimiento Lead Frío)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📅 Calendar: Bienvenida: Disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Marcar Cita Cancelada1": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Confirmar Cancelación1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Notif Cancelación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Notif Cancelación": {
+      "main": [
+        [
+          {
+            "node": "Notificar Jesus Cancelación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 ¿Ya agendó cita? (48h)": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Necesita seguimiento 48h?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🔍 ¿Sigue sin cita tras 7 días?1": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Enviar seguimiento final?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Guardar Fecha de Cita1": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Confirmar Cita al Paciente1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Confirmar Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Buscar Paciente": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Leer Disponibilidad",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Buscar Paciente (Cancelar)": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Leer Citas (Cancelar)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Cancelar Cita (WhatsApp)": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Preparar Email Notif Cancelación WA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Notif Cancelación WA": {
+      "main": [
+        [
+          {
+            "node": "Notificar Jesus Cancelación WA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📊 Sheets: Verificar Estado Pre-Recordatorio": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Cita Sigue Activa?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Pre-IA: Disponibilidad": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Pre-IA: Citas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Pre-IA: Citas": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Formatear Días para IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Bienvenida: Disponibilidad": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Bienvenida: Citas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Bienvenida: Citas": {
+      "main": [
+        [
+          {
+            "node": "🧠 AI Agent — Asistente Dr. Jesús2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Leer Disponibilidad": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Leer Citas Existentes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Leer Citas Existentes": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Calcular Hueco Libre",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Leer Citas (Cancelar)": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Filtrar y Preparar Cancelación",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Crear Cita": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Guardar Fecha de Cita1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Eliminar Cita (Cancelar)": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Cancelar Cita (WhatsApp)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "📅 Calendar: Eliminar Cita Previa (Re-agenda)": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Esperar 48h (Seguimiento Lead Frío)1": {
+      "main": [
+        [
+          {
+            "node": "🔍 ¿Ya agendó cita? (48h)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Esperar 5 días (Seguimiento Final)1": {
+      "main": [
+        [
+          {
+            "node": "🔍 ¿Sigue sin cita tras 7 días?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Esperar hasta 24h antes de la cita2": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Verificar Estado Pre-Recordatorio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⏰ Esperar hasta 2h después de la cita1": {
+      "main": [
+        [
+          {
+            "node": "⭐ WhatsApp: Pedir Reseña1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Pedir Reseña",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 AI Agent — Asistente Dr. Jesús1": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Analizar Respuesta IA",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "🧠 AI Agent — Asistente Dr. Jesús2": {
+      "main": [
+        [
+          {
+            "node": "⚙️ Preparar Email Bienvenida",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "💬 WhatsApp: Bienvenida (< 2 min)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Notificar Jesus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ES DUPLICADO?": {
+      "main": [
+        [
+          {
+            "node": "📊 Guardar Lead en Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Intención de Reserva?": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Buscar Paciente",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Hay Hueco Disponible?1": {
+      "main": [
+        [
+          {
+            "node": "❓ ¿Tiene Cita Previa? (Re-agenda)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "💬 WhatsApp: Sin Disponibilidad",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Notif Sin Hueco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Notif Sin Hueco": {
+      "main": [
+        [
+          {
+            "node": "Notificar Jesus Sin Hueco",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Necesita seguimiento 48h?1": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Seguimiento 48h1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Seguimiento 48h",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⏰ Esperar 5 días (Seguimiento Final)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📊 Sheets: Seguimiento +",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Enviar seguimiento final?": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Seguimiento Final (7 días)1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Último Seguimiento",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "📊 Sheets: Marcar Lead Frío1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Intención de Cancelar?": {
+      "main": [
+        [
+          {
+            "node": "📊 Sheets: Buscar Paciente (Cancelar)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Hay Evento a Eliminar?": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Eliminar Cita (Cancelar)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📊 Sheets: Cancelar Cita (WhatsApp)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Cita Sigue Activa?": {
+      "main": [
+        [
+          {
+            "node": "💬 WhatsApp: Recordatorio 24h2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⏰ Esperar hasta 2h después de la cita1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "⚙️ Preparar Email Recordatorio 24h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "❓ ¿Tiene Cita Previa? (Re-agenda)": {
+      "main": [
+        [
+          {
+            "node": "📅 Calendar: Eliminar Cita Previa (Re-agenda)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "📅 Calendar: Crear Cita",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Bienvenida": {
+      "main": [
+        [
+          {
+            "node": "Bienvenida",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Notificar Jesus": {
+      "main": [
+        [
+          {
+            "node": "Notificar Jesus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Seguimiento 48h": {
+      "main": [
+        [
+          {
+            "node": "Seguimiento 48h",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Último Seguimiento": {
+      "main": [
+        [
+          {
+            "node": "Ultimo mensaje seguimiento",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Confirmar Cita": {
+      "main": [
+        [
+          {
+            "node": "📧 Email: Confirmar Cita al Paciente1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Recordatorio 24h": {
+      "main": [
+        [
+          {
+            "node": "📧 Email: Recordatorio 24h2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "⚙️ Preparar Email Pedir Reseña": {
+      "main": [
+        [
+          {
+            "node": "📧 Email: Pedir Reseña1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "eb2ce943b1cb3af0e31676e89dca487029bb7967e57c6b1ca22c602794035aac"
+  }
+}
