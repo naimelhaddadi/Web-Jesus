@@ -90,6 +90,11 @@ if (form) {
       errorEl.textContent = 'Por favor, introduce un email válido.';
       return;
     }
+    if (!form.querySelector('#f-consent')?.checked) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Debes aceptar la Política de Privacidad para continuar.';
+      return;
+    }
 
     const btn = document.getElementById('btn-submit');
     const originalText = btn.textContent;

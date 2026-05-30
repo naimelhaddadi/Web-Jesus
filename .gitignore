@@ -1,0 +1,4 @@
+# Exports de n8n: contienen IDs de credenciales y datos privados. NUNCA versionar.
+n8n/
+*.n8n.json
+workflow_*.json

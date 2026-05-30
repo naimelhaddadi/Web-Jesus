@@ -212,6 +212,9 @@ nav.scrolled { padding: 10px 60px; box-shadow: 0 6px 28px rgba(26,86,219,0.13); 
 .btn-submit:hover { background: var(--blue-light); transform: translateY(-1px); box-shadow: 0 12px 32px rgba(26,86,219,0.38); }
 .btn-submit:disabled { opacity: 0.7; cursor: not-allowed; transform: none; }
 .form-note { font-size: 0.68rem; color: var(--text-muted); margin-top: 14px; text-align: center; line-height: 1.6; }
+.form-consent { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 14px; font-size: 0.72rem; color: var(--text-muted); line-height: 1.5; cursor: pointer; }
+.form-consent input { margin-top: 2px; width: 16px; height: 16px; accent-color: var(--blue); flex-shrink: 0; cursor: pointer; }
+.form-consent a { color: var(--blue); text-decoration: underline; }
 .form-success { display: none; text-align: center; padding: 40px 20px; }
 .form-success-icon { font-size: 3rem; margin-bottom: 16px; }
 .form-success-title { font-family: 'Cormorant Garamond', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 10px; }
