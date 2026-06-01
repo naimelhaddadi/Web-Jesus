@@ -90,6 +90,13 @@ if (form) {
       errorEl.textContent = 'Por favor, introduce un email válido.';
       return;
     }
+    // Validación de teléfono español: 9 dígitos empezando por 6, 7 o 9 (admite +34 / 0034 / espacios)
+    const telLimpio = String(data.telefono).replace(/[\s\-().]/g, '').replace(/^(\+34|0034)/, '');
+    if (!/^[679]\d{8}$/.test(telLimpio)) {
+      errorEl.style.display = 'block';
+      errorEl.textContent = 'Introduce un teléfono móvil español válido (9 dígitos, empieza por 6, 7 o 9).';
+      return;
+    }
     if (!form.querySelector('#f-consent')?.checked) {
       errorEl.style.display = 'block';
       errorEl.textContent = 'Debes aceptar la Política de Privacidad para continuar.';
