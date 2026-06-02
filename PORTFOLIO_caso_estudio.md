@@ -4,6 +4,43 @@
 > Diseño e implementación de un sistema completo que capta pacientes desde la web
 > y gestiona todo el ciclo de la cita por WhatsApp con IA, sin intervención humana.
 
+<!-- 📸 PORTADA: pon aquí una captura atractiva de la home de la web -->
+`[IMAGEN: portada — home de la web con las 2 sedes]`
+
+---
+
+## ⚡ En 30 segundos
+
+| | |
+|---|---|
+| **Cliente** | Clínica dental multi-sede (Madrid + Valladolid) |
+| **Reto** | Captar y agendar pacientes 24/7 en 2 sedes sin duplicar sistemas |
+| **Solución** | Web SEO-local + chatbot de WhatsApp con IA y agendado automático |
+| **Rol** | Diseño de arquitectura, desarrollo, automatización e integración IA |
+| **Stack** | Web · n8n · GPT-4o · WhatsApp API · Google (Calendar/Sheets) |
+| **Resultado** | Captación automática 24/7, 0 leads perdidos, escalable a N sedes |
+
+---
+
+## 🎬 Demo
+
+<!-- 📹 Sube aquí un GIF o vídeo corto: rellenar el formulario → llega el WhatsApp del bot → agenda la cita -->
+`[VÍDEO/GIF: demo del flujo completo — formulario → WhatsApp → cita agendada]`
+
+---
+
+## 🔄 Antes vs. Después
+
+| | ❌ Antes | ✅ Después |
+|---|---|---|
+| Captación | Solo en horario, por teléfono | 24/7 desde la web |
+| Primer contacto | Horas o días | Segundos (WhatsApp automático) |
+| Agendado | Manual, por teléfono | Automático con IA |
+| Recordatorios | A mano (o ninguno) | Automáticos 24h antes |
+| Reseñas | Se pedían a veces | Automáticas tras cada visita |
+| Leads perdidos | Frecuentes | Ninguno (todo registrado y seguido) |
+| Escalar a otra sede | Montar todo de nuevo | ~15 min de configuración |
+
 ---
 
 ## 🎯 El reto
@@ -63,6 +100,37 @@ Todo automático. Cero trabajo manual para la clínica.
 - **Escalable**: añadir una 3ª sede son ~15 minutos de configuración, sin
   reescribir el sistema.
 - **Segmentación**: cada lead/cita queda etiquetado por sede para analítica.
+
+<!-- 📈 MÉTRICAS REALES: rellena estos números cuando el sistema lleve unas semanas en producción -->
+**Métricas (primer periodo en producción):**
+| Métrica | Valor |
+|---|---|
+| Pacientes captados | `[rellenar]` |
+| Citas agendadas automáticamente | `[rellenar]` |
+| Tiempo medio de primer contacto | `[rellenar]` |
+| Tasa de respuesta a la bienvenida | `[rellenar]` |
+| Reseñas generadas | `[rellenar]` |
+
+---
+
+## 📸 Capturas del sistema
+
+<!-- Inserta cada captura debajo de su título -->
+
+**Web — Home con selector de sede**
+`[IMAGEN: home con las tarjetas Madrid / Valladolid]`
+
+**Web — Landing de sede (SEO local + formulario)**
+`[IMAGEN: landing de Valladolid con mapa y formulario]`
+
+**Automatización — Workflow completo en n8n**
+`[IMAGEN: vista general del workflow de ~100 nodos]`
+
+**Chatbot — Conversación real de agendado por WhatsApp**
+`[IMAGEN: chat de WhatsApp del bot agendando una cita]`
+
+**Gestión — Citas en Google Calendar / base de datos**
+`[IMAGEN: calendario con citas y/o la hoja de pacientes]`
 
 ---
 
@@ -144,6 +212,22 @@ Diseño de la arquitectura · Desarrollo web (3 landings + legal) · SEO local �
 Diseño e implementación del workflow de automatización · Integración de IA ·
 Configuración de WhatsApp Business API y plantillas · Integraciones Google ·
 Sistema de alertas · Documentación y manual de uso.
+
+---
+
+## 💬 Testimonio del cliente
+
+<!-- Cuando Jesús esté contento con el resultado, pídele una frase y ponla aquí -->
+> `[Frase del cliente sobre el resultado del proyecto]`
+> — Dr. Jesús Rodríguez, Instituto Dental
+
+---
+
+## 🔗 Enlaces
+
+- 🌐 Web en vivo: `[institutodentalvalladolid.com]`
+- 💻 Código (si procede): `[enlace al repositorio]`
+- 📩 Contacto: `[tu email / LinkedIn]`
 
 ---
 
