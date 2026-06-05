@@ -1,5 +1,7 @@
 # Exports de n8n: contienen IDs de credenciales y datos privados. NUNCA versionar.
 n8n/
+refactor/
 *.n8n.json
 workflow_*.json
 workflow-*.json
+instituto-dental-refactor-*.tar.gz
