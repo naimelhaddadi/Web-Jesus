@@ -235,65 +235,78 @@
   </div>
 </section>
 
-<!-- ===================== FORMULARIO DE CAPTACIÓN ===================== -->
-<section class="form-section" id="reserva">
-  <div class="section-eyebrow reveal" style="margin:0 auto 18px;">Cita prioritaria · Madrid</div>
-  <h2 class="section-title reveal">Reserva tu cita<br><em>gratuita en Madrid.</em></h2>
-  <p class="section-desc reveal" style="margin:10px auto 0;text-align:center;">Plazas limitadas. Te confirmamos por WhatsApp en menos de 2 horas.</p>
+<!-- ===================== AGENDAMIENTO (calendario + triaje) ===================== -->
+<section class="booking-section" id="reserva">
+  <div class="section-eyebrow reveal" style="margin:0 auto 18px;">Reserva online · Madrid</div>
+  <h2 class="section-title reveal">Elige tú mismo<br><em>tu cita gratuita.</em></h2>
+  <p class="section-desc reveal" style="margin:10px auto 0;text-align:center;">Selecciona el día y la hora que prefieras. Confirmación inmediata, sin llamadas ni esperas.</p>
 
-  <div class="form-wrap reveal">
-    <div class="form-trust" style="margin-bottom:22px;">
-      <span>🔒 Datos protegidos</span><span>✅ Sin compromiso</span><span>⚡ Respuesta &lt; 2h</span>
+  <!-- CALENDARIO INCRUSTADO (CTA principal) -->
+  <div class="booking-cal reveal">
+    <!-- ▼▼▼ SUSTITUYE por el iframe de Cal.com de la sede de MADRID ▼▼▼ -->
+    <!--
+    <iframe src="https://cal.com/instituto-dental-madrid/primera-visita?embed=true"
+            loading="lazy" title="Reserva tu cita en Madrid"></iframe>
+    -->
+    <div class="booking-cal-placeholder">
+      <strong>📅 Calendario de reservas — Madrid</strong>
+      <span>Aquí irá el calendario de Cal.com con los días que el Dr. Jesús abra en Madrid. (Marcador de posición)</span>
     </div>
+    <!-- ▲▲▲ -->
+  </div>
+  <div class="booking-trust reveal">
+    <span>🦷 1ª visita gratuita</span><span>⚡ Confirmación inmediata</span><span>✅ Sin compromiso</span>
+  </div>
+
+  <!-- DIVISOR -->
+  <div class="booking-divider reveal">¿No encuentras un hueco que te encaje?</div>
+
+  <!-- FORMULARIO DE TRIAJE (red de seguridad) -->
+  <div class="triage-wrap reveal">
+    <h3>Déjanos tus datos</h3>
+    <p class="triage-sub">El Dr. Jesús te buscará un hueco personalmente y te escribirá por WhatsApp hoy mismo.</p>
 
     <div class="form-error-msg" id="form-error">
-      Ha ocurrido un error al enviar el formulario. Por favor, inténtalo de nuevo o escríbenos por WhatsApp al 602 71 32 89.
+      Ha ocurrido un error al enviar el formulario. Por favor, inténtalo de nuevo.
     </div>
 
-    <!-- action apunta al webhook de n8n · method POST · funciona también sin JavaScript -->
-    <form id="lead-form" action="https://clinicas-dentales-n8n.blpzay.easypanel.host/webhook/dental-lead-web" method="POST">
-      <!-- CAMPO OCULTO CLAVE PARA LA AUTOMATIZACIÓN POR SEDE -->
+    <form id="lead-form" action="https://clinicas-dentales-n8n.blpzay.easypanel.host/webhook/dental-triaje" method="POST">
       <input type="hidden" name="sede" value="madrid">
 
       <div id="form-fields">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="f-nombre">Nombre *</label>
-            <input type="text" id="f-nombre" name="nombre" class="form-input" placeholder="Tu nombre" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="f-telefono">Teléfono *</label>
-            <input type="tel" id="f-telefono" name="telefono" class="form-input" placeholder="+34 600 000 000" required>
-          </div>
+        <div class="form-group">
+          <label class="form-label" for="f-nombre">Nombre *</label>
+          <input type="text" id="f-nombre" name="nombre" class="form-input" placeholder="Tu nombre" required>
         </div>
         <div class="form-group">
-          <label class="form-label" for="f-email">Correo electrónico *</label>
-          <input type="email" id="f-email" name="email" class="form-input" placeholder="tu@email.com" required>
+          <label class="form-label" for="f-telefono">Teléfono (WhatsApp) *</label>
+          <input type="tel" id="f-telefono" name="telefono" class="form-input" placeholder="+34 600 000 000" required>
         </div>
         <div class="form-group">
-          <label class="form-label" for="f-tratamiento">¿Qué tratamiento te interesa?</label>
-          <select id="f-tratamiento" name="tratamiento" class="form-select">
-            <option value="" disabled selected>Selecciona un tratamiento</option>
+          <label class="form-label" for="f-motivo">Motivo de la consulta</label>
+          <select id="f-motivo" name="motivo" class="form-select">
+            <option value="" disabled selected>Selecciona un motivo</option>
             <option>Revisión y limpieza</option>
-            <option>Estética dental</option>
+            <option>Ortodoncia</option>
             <option>Implantes dentales</option>
-            <option>Ortodoncia invisible</option>
-            <option>Otro tratamiento</option>
+            <option>Estética dental</option>
+            <option>Urgencia / dolor</option>
+            <option>Otro</option>
           </select>
         </div>
         <label class="form-consent">
           <input type="checkbox" id="f-consent" name="consentimiento" value="si" required>
           <span>He leído y acepto la <a href="../privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a> y el tratamiento de mis datos para gestionar mi cita.</span>
         </label>
-        <button class="btn-submit" id="btn-submit" type="submit">Reservar mi cita gratuita en Madrid →</button>
-        <p class="form-note">Sin compromiso · Confirmación por WhatsApp en menos de 2h · Datos protegidos</p>
+        <button class="btn-submit" id="btn-submit" type="submit">Quiero que me busquen un hueco →</button>
+        <p class="form-note">Te contactamos hoy mismo · Sin compromiso · Datos protegidos</p>
       </div>
     </form>
 
     <div class="form-success" id="form-success">
       <div class="form-success-icon">✅</div>
       <div class="form-success-title">¡Solicitud recibida!</div>
-      <p class="form-success-text">En menos de 2 horas recibirás un WhatsApp del equipo de Madrid para confirmar tu cita gratuita.<br><br>Revisa también tu email, te hemos enviado un resumen de tu solicitud.</p>
+      <p class="form-success-text">El Dr. Jesús te escribirá hoy mismo por WhatsApp para encontrarte el mejor hueco.<br><br>Revisa también tu email, te hemos enviado un resumen.</p>
     </div>
   </div>
 </section>
