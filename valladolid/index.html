@@ -232,74 +232,78 @@
   </div>
 </section>
 
-<!-- ===================== FORMULARIO DE CAPTACIÓN ===================== -->
-<section class="form-section" id="reserva">
-  <div class="section-eyebrow reveal" style="margin:0 auto 18px;">Plazas de inauguración · Valladolid</div>
-  <h2 class="section-title reveal">Reserva tu plaza<br><em>en la apertura.</em></h2>
-  <p class="section-desc reveal" style="margin:10px auto 0;text-align:center;">Déjanos tus datos y serás de los primeros en conseguir cita con condiciones de inauguración.</p>
+<!-- ===================== AGENDAMIENTO (calendario + triaje) ===================== -->
+<section class="booking-section" id="reserva">
+  <div class="section-eyebrow reveal" style="margin:0 auto 18px;">Reserva online · Valladolid</div>
+  <h2 class="section-title reveal">Elige tú mismo<br><em>tu cita gratuita.</em></h2>
+  <p class="section-desc reveal" style="margin:10px auto 0;text-align:center;">Selecciona el día y la hora que prefieras. Confirmación inmediata, sin llamadas ni esperas.</p>
 
-  <div class="form-wrap reveal">
-    <div class="form-trust" style="margin-bottom:22px;">
-      <span>🔒 Datos protegidos</span><span>✅ Sin compromiso</span><span>⚡ Te avisamos al abrir</span>
+  <!-- CALENDARIO INCRUSTADO (CTA principal) -->
+  <div class="booking-cal reveal">
+    <!-- ▼▼▼ SUSTITUYE por el iframe de Cal.com de la sede de VALLADOLID ▼▼▼ -->
+    <!--
+    <iframe src="https://cal.com/instituto-dental-valladolid/primera-visita?embed=true"
+            loading="lazy" title="Reserva tu cita en Valladolid"></iframe>
+    -->
+    <div class="booking-cal-placeholder">
+      <strong>📅 Calendario de reservas — Valladolid</strong>
+      <span>Aquí irá el calendario de Cal.com con la disponibilidad de Valladolid (L-V 10:00–18:00). (Marcador de posición)</span>
     </div>
+    <!-- ▲▲▲ -->
+  </div>
+  <div class="booking-trust reveal">
+    <span>🦷 1ª visita gratuita</span><span>⚡ Confirmación inmediata</span><span>✅ Sin compromiso</span>
+  </div>
+
+  <!-- DIVISOR -->
+  <div class="booking-divider reveal">¿No encuentras un hueco que te encaje?</div>
+
+  <!-- FORMULARIO DE TRIAJE (red de seguridad) -->
+  <div class="triage-wrap reveal">
+    <h3>Déjanos tus datos</h3>
+    <p class="triage-sub">El Dr. Jesús te buscará un hueco personalmente y te escribirá por WhatsApp hoy mismo.</p>
 
     <div class="form-error-msg" id="form-error">
-      Ha ocurrido un error al enviar el formulario. Por favor, inténtalo de nuevo o escríbenos por WhatsApp al 602 71 32 89.
+      Ha ocurrido un error al enviar el formulario. Por favor, inténtalo de nuevo.
     </div>
 
-    <!-- action apunta al webhook de n8n · method POST · funciona también sin JavaScript -->
-    <form id="lead-form" action="https://clinicas-dentales-n8n.blpzay.easypanel.host/webhook/dental-lead-web" method="POST">
-      <!-- CAMPO OCULTO CLAVE PARA LA AUTOMATIZACIÓN POR SEDE -->
+    <form id="lead-form" action="https://clinicas-dentales-n8n.blpzay.easypanel.host/webhook/dental-triaje" method="POST">
       <input type="hidden" name="sede" value="valladolid">
 
       <div id="form-fields">
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="f-nombre">Nombre *</label>
-            <input type="text" id="f-nombre" name="nombre" class="form-input" placeholder="Tu nombre" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="f-telefono">Teléfono *</label>
-            <input type="tel" id="f-telefono" name="telefono" class="form-input" placeholder="+34 600 000 000" required>
-          </div>
+        <div class="form-group">
+          <label class="form-label" for="f-nombre">Nombre *</label>
+          <input type="text" id="f-nombre" name="nombre" class="form-input" placeholder="Tu nombre" required>
         </div>
         <div class="form-group">
-          <label class="form-label" for="f-email">Correo electrónico *</label>
-          <input type="email" id="f-email" name="email" class="form-input" placeholder="tu@email.com" required>
+          <label class="form-label" for="f-telefono">Teléfono (WhatsApp) *</label>
+          <input type="tel" id="f-telefono" name="telefono" class="form-input" placeholder="+34 600 000 000" required>
         </div>
         <div class="form-group">
-          <label class="form-label" for="f-tratamiento">¿Qué tratamiento te interesa?</label>
-          <select id="f-tratamiento" name="tratamiento" class="form-select">
-            <option value="" disabled selected>Selecciona un tratamiento</option>
+          <label class="form-label" for="f-motivo">Motivo de la consulta</label>
+          <select id="f-motivo" name="motivo" class="form-select">
+            <option value="" disabled selected>Selecciona un motivo</option>
             <option>Revisión y limpieza</option>
-            <option>Estética dental</option>
+            <option>Ortodoncia</option>
             <option>Implantes dentales</option>
-            <option>Ortodoncia invisible</option>
-            <option>Otro tratamiento</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label class="form-label" for="f-personas">¿Para cuántas personas es la cita?</label>
-          <select id="f-personas" name="personas" class="form-select">
-            <option value="1" selected>1 persona</option>
-            <option value="2">2 personas</option>
-            <option value="3">3 personas</option>
-            <option value="4">4 o más personas</option>
+            <option>Estética dental</option>
+            <option>Urgencia / dolor</option>
+            <option>Otro</option>
           </select>
         </div>
         <label class="form-consent">
           <input type="checkbox" id="f-consent" name="consentimiento" value="si" required>
           <span>He leído y acepto la <a href="../privacidad.html" target="_blank" rel="noopener">Política de Privacidad</a> y el tratamiento de mis datos para gestionar mi cita.</span>
         </label>
-        <button class="btn-submit" id="btn-submit" type="submit">Reservar mi plaza en Valladolid →</button>
-        <p class="form-note">Sin compromiso · Te contactamos en cuanto haya cita disponible · Datos protegidos</p>
+        <button class="btn-submit" id="btn-submit" type="submit">Quiero que me busquen un hueco →</button>
+        <p class="form-note">Te contactamos hoy mismo · Sin compromiso · Datos protegidos</p>
       </div>
     </form>
 
     <div class="form-success" id="form-success">
       <div class="form-success-icon">✅</div>
-      <div class="form-success-title">¡Plaza reservada!</div>
-      <p class="form-success-text">Gracias por tu interés en nuestra nueva sede de Valladolid. Te contactaremos muy pronto por WhatsApp para confirmar tu cita.<br><br>Revisa también tu email, te hemos enviado un resumen.</p>
+      <div class="form-success-title">¡Solicitud recibida!</div>
+      <p class="form-success-text">El Dr. Jesús te escribirá hoy mismo por WhatsApp para encontrarte el mejor hueco.<br><br>Revisa también tu email, te hemos enviado un resumen.</p>
     </div>
   </div>
 </section>

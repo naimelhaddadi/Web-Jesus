@@ -79,13 +79,13 @@ if (form) {
     const sede = data.sede || 'desconocida';
     const errorEl = document.getElementById('form-error');
 
-    // Validación básica
-    if (!data.nombre?.trim() || !data.telefono?.trim() || !data.email?.trim()) {
+    // Validación básica (nombre y teléfono obligatorios; email opcional)
+    if (!data.nombre?.trim() || !data.telefono?.trim()) {
       errorEl.style.display = 'block';
-      errorEl.textContent = 'Por favor, rellena todos los campos obligatorios (nombre, teléfono y email).';
+      errorEl.textContent = 'Por favor, rellena tu nombre y tu teléfono.';
       return;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+    if (data.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
       errorEl.style.display = 'block';
       errorEl.textContent = 'Por favor, introduce un email válido.';
       return;
